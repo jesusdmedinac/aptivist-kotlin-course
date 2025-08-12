@@ -1,61 +1,243 @@
 
-// 📝 CONFIGURACIÓN GRADLE CON KOTLIN DSL
-// Este archivo define cómo se construye nuestro proyecto de Kotlin.
-// Usamos Kotlin DSL (Domain Specific Language) en lugar de Groovy para consistency con Kotlin.
+// 📝 CONFIGURACIÓN GRADLE CON KOTLIN DSL AVANZADA (Phase 1.2)
+// Este archivo demuestra características avanzadas del sistema de build de Gradle
+// usando Kotlin DSL, incluyendo DSL, lambdas, y configuración programática.
 
 plugins {
-    // 📝 Plugin de Kotlin: Permite compilar código Kotlin a bytecode JVM
-    kotlin("jvm") version "1.9.20"
-    
-    // 📝 Plugin de aplicación: Proporciona tareas para ejecutar y distribuir aplicaciones
+    // PED: El bloque 'plugins' es un DSL (Domain Specific Language) que permite
+    // una sintaxis clara y type-safe para configurar plugins
+    kotlin("jvm") version "1.9.22" // Upgraded to more recent version
     application
+    
+    // PED: Nuevos plugins que demuestran configuración avanzada
+    id("org.jetbrains.dokka") version "1.9.10" // Documentación automática
+    id("jacoco") // Code coverage reporting
 }
 
+// PED: Las propiedades de proyecto se pueden configurar programáticamente
+// usando extension functions del objeto Project
 group = "com.aptivist"
 version = "1.0-SNAPSHOT"
 
-// 📝 REPOSITORIOS: Dónde buscar las dependencias de nuestro proyecto
+// PED: Extension property personalizada usando delegated properties
+val projectDescription: String by project.extra { "Curso avanzado de Kotlin con ejemplos prácticos" }
+
 repositories {
-    mavenCentral() // Repositorio principal de Maven donde están la mayoría de librerías
+    mavenCentral()
+    // PED: Añadimos Maven Google para futuras dependencias de Android
+    google()
 }
 
-// 📝 DEPENDENCIAS: Librerías externas que nuestro proyecto necesita
+// PED: Configuración de dependencias usando closures (lambdas implícitos)
 dependencies {
-    // Kotlin standard library (viene automáticamente con el plugin kotlin("jvm"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("org.jetbrains.kotlin:kotlin-reflect") // Para reflection avanzada
     
-    // 📝 DEPENDENCIAS PARA LOGGING (Phase 1.1)
-    // SLF4J: Simple Logging Facade for Java - API estándar para logging
+    // Logging dependencies (from Phase 1.1)
     implementation("org.slf4j:slf4j-api:2.0.9")
-    // Logback: implementación robusta y eficiente de SLF4J
     implementation("ch.qos.logback:logback-classic:1.4.11")
     
-    // 📝 DEPENDENCIAS PARA TESTING
+    // PED: Nuevas dependencias para demostrar configuración avanzada
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.16.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
+    
+    // Testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
+    testImplementation("io.mockk:mockk:1.13.8") // Modern mocking for Kotlin
 }
 
-// 📝 CONFIGURACIÓN DE LA APLICACIÓN
+// PED: REGION - Configuración de la aplicación usando extension functions
+// Esta sección demuestra cómo usar closures (lambdas) para configurar objetos
 application {
-    // Especifica cuál es la clase principal (punto de entrada) de nuestra aplicación
+    // PED: mainClass es un Property<String> que acepta configuración lazy
     mainClass.set("com.aptivist.kotlin.AppKt")
+    
+    // PED: applicationDefaultJvmArgs es un List<String> mutable
+    applicationDefaultJvmArgs = listOf(
+        "-Dfile.encoding=UTF-8",
+        "-Djava.awt.headless=true"
+    )
 }
 
-// 📝 CONFIGURACIÓN DEL COMPILADOR KOTLIN
+// PED: REGION - Configuración del compilador usando task configuration
+// Demuestra cómo las tasks son objetos configurables con DSL
 tasks.compileKotlin {
+    // PED: kotlinOptions es un closure que configura el compilador
     kotlinOptions {
-        jvmTarget = "11" // Compilamos para Java 11
+        jvmTarget = "11"
+        // PED: Habilitamos características experimentales de Kotlin
+        freeCompilerArgs = listOf(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-Xjsr305=strict"
+        )
     }
 }
 
-// 📝 CONFIGURACIÓN DE TESTS
+// PED: REGION - Configuración avanzada de testing con jacoco
 tasks.test {
-    useJUnitPlatform() // Usa JUnit 5 Platform para ejecutar tests
+    useJUnitPlatform()
+    
+    // PED: Configuración usando lambda con receiver (extension function)
+    systemProperties(
+        mapOf(
+            "junit.jupiter.execution.parallel.enabled" to true,
+            "junit.jupiter.execution.parallel.mode.default" to "concurrent"
+        )
+    )
+    
+    // PED: finalizedBy demuestra task dependencies programáticas
+    finalizedBy(tasks.jacocoTestReport)
 }
 
-// 📝 CONFIGURACIÓN ADICIONAL para hacer el JAR ejecutable
-tasks.jar {
-    manifest {
-        attributes["Main-Class"] = "com.aptivist.kotlin.AppKt"
+// PED: Configuración de JaCoCo usando closure
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // PED: Task dependencies explícitas
+    
+    reports {
+        // PED: Cada tipo de reporte se configura con su propio DSL
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
     }
+}
+
+// PED: REGION - Task personalizada demostrando DSL y lambdas
+// Esta task muestra cómo crear configuración personalizada usando Kotlin DSL
+tasks.register<Copy>("deployResources") {
+    // PED: Esta es una Higher-Order Function - una lambda que configura la task
+    description = "Copia recursos para deployment usando DSL de Gradle"
+    group = "deployment"
+    
+    // PED: from() y into() son extension functions del tipo Copy
+    from("src/main/resources") {
+        // PED: Nested closure que demuestra DSL anidado
+        include("**/*.properties", "**/*.xml")
+        exclude("**/*.tmp")
+    }
+    
+    into(layout.buildDirectory.dir("deploy/resources"))
+    
+    // PED: doLast es una lambda que se ejecuta al final de la task
+    doLast {
+        println("✅ Recursos deployados usando Kotlin DSL con lambdas!")
+    }
+}
+
+// PED: REGION - Task personalizada con Higher-Order Functions
+tasks.register("generateBuildInfo") {
+    description = "Genera información de build usando programación funcional"
+    group = "build"
+    
+    // PED: outputs.file demuestra lazy evaluation
+    val outputFile = layout.buildDirectory.file("buildinfo/build-info.properties")
+    outputs.file(outputFile)
+    
+    // PED: doLast recibe una lambda (Action<Task>) - Higher-Order Function
+    doLast {
+        // PED: Aquí demostramos el uso de extension functions y lambdas
+        outputFile.get().asFile.apply {
+            parentFile.mkdirs() // Extension function de File
+            
+            // PED: writeText es una extension function de Kotlin para File
+            writeText(
+                // PED: buildString es una Higher-Order Function que toma una lambda
+                buildString {
+                    appendLine("# Build Information")
+                    appendLine("project.name=${project.name}")
+                    appendLine("project.version=${project.version}")
+                    appendLine("kotlin.version=${kotlin.coreLibrariesVersion}")
+                    appendLine("build.timestamp=${System.currentTimeMillis()}")
+                    appendLine("description=$projectDescription")
+                }
+            )
+        }
+        
+        println("📋 Build info generado en: ${outputFile.get().asFile.absolutePath}")
+    }
+}
+
+// PED: REGION - Configuración avanzada del JAR usando programación funcional
+tasks.jar {
+    // PED: manifest es un closure que configura el MANIFEST.MF
+    manifest {
+        attributes(
+            // PED: mapOf demuestra literal de Map en Kotlin
+            mapOf(
+                "Main-Class" to application.mainClass.get(),
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to project.version,
+                "Built-By" to System.getProperty("user.name"),
+                "Build-Timestamp" to java.time.Instant.now().toString()
+            )
+        )
+    }
+    
+    // PED: archiveBaseName es un Property<String> que usa lazy evaluation
+    archiveBaseName.set("aptivist-kotlin-course")
+}
+
+// PED: REGION - Task que demuestra scope functions de Kotlin
+tasks.register("projectReport") {
+    description = "Genera un reporte del proyecto usando Kotlin scope functions"
+    group = "reporting"
+    
+    doLast {
+        // PED: run es un scope function que ejecuta código en el contexto del receptor
+        project.run {
+            println("📊 REPORTE DEL PROYECTO")
+            println("=======================")
+            println("Nombre: $name")
+            println("Versión: $version")
+            println("Descripción: $projectDescription")
+            
+            // PED: let es un scope function útil para transformaciones
+            configurations.runtimeClasspath.get().files.let { files ->
+                println("Dependencias runtime: ${files.size}")
+                files.take(3).forEach { println("  - ${it.name}") }
+                if (files.size > 3) println("  ... y ${files.size - 3} más")
+            }
+            
+            // PED: also es útil para side-effects manteniendo el contexto
+            tasks.matching { it.group == "build" }.also { buildTasks ->
+                println("Tasks de build disponibles: ${buildTasks.map { it.name }}")
+            }
+        }
+    }
+}
+
+// PED: REGION - Custom DSL extension para configuración de proyecto
+// Esta función demuestra cómo crear DSL personalizados
+fun Project.customConfiguration(configure: CustomConfigurationSpec.() -> Unit) {
+    val spec = CustomConfigurationSpec(this)
+    spec.configure()
+    spec.apply()
+}
+
+// PED: Clase que representa un DSL personalizado
+class CustomConfigurationSpec(private val project: Project) {
+    var enableVerboseLogging: Boolean = false
+    var customProperties: Map<String, String> = emptyMap()
+    
+    fun apply() {
+        if (enableVerboseLogging) {
+            project.tasks.withType<JavaExec> {
+                systemProperty("logging.level.root", "DEBUG")
+            }
+        }
+        
+        customProperties.forEach { (key, value) ->
+            project.ext[key] = value
+        }
+    }
+}
+
+// PED: Ejemplo de uso del DSL personalizado
+customConfiguration {
+    enableVerboseLogging = true
+    customProperties = mapOf(
+        "course.phase" to "1.2",
+        "course.topic" to "Gradle Build System Setup"
+    )
 }
