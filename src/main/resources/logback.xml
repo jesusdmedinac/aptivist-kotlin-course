@@ -1,0 +1,29 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+📝 CONFIGURACIÓN DE LOGBACK (Phase 1.1)
+Este archivo configura cómo y dónde se muestran los logs de nuestra aplicación.
+Logback es una implementación rápida y flexible del API SLF4J.
+-->
+<configuration>
+    
+    <!-- 📝 APPENDER: Define dónde y cómo se escriben los logs -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 📝 ENCODER: Define el formato de los mensajes de log -->
+        <encoder>
+            <!-- 📝 PATTERN: Formato personalizado para mostrar fecha, nivel, clase y mensaje -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- 📝 LOGGER específico para nuestro paquete com.aptivist -->
+    <logger name="com.aptivist" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    
+    <!-- 📝 ROOT LOGGER: Configuración por defecto para todos los demás logs -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+    
+</configuration>
