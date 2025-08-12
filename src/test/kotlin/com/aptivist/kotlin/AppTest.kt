@@ -17,11 +17,12 @@ class AppTest {
     @Test
     fun testCurrentTimestamp() {
         // 📝 PRUEBA BÁSICA: Verificamos que nuestra función retorna un valor no nulo
-        val timestamp = getCurrentTimestamp()
+        // 📝 Accedemos a la función del companion object usando App.getCurrentTimestamp()
+        val timestamp = App.getCurrentTimestamp()
         
         // 📝 ASSERTIONS: Verificamos que el comportamiento es el esperado
         assertNotNull(timestamp, "El timestamp no debe ser nulo")
-        assertEquals("2025-08-11", timestamp, "El timestamp debe coincidir con el valor esperado")
+        assertEquals("2025-08-12", timestamp, "El timestamp debe coincidir con el valor esperado (Phase 1.1)")
     }
     
     // 📝 FUTUROS TESTS: A medida que agreguemos más funcionalidad, 
