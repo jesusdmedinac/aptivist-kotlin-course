@@ -24,6 +24,12 @@ dependencies {
     // Kotlin standard library (viene automáticamente con el plugin kotlin("jvm"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     
+    // 📝 DEPENDENCIAS PARA LOGGING (Phase 1.1)
+    // SLF4J: Simple Logging Facade for Java - API estándar para logging
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    // Logback: implementación robusta y eficiente de SLF4J
+    implementation("ch.qos.logback:logback-classic:1.4.11")
+    
     // 📝 DEPENDENCIAS PARA TESTING
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
