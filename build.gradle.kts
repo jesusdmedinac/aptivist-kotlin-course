@@ -241,3 +241,109 @@ customConfiguration {
         "course.topic" to "Gradle Build System Setup"
     )
 }
+
+// PED: REGION - Usando las utilidades de buildSrc
+// Esta sección demuestra cómo usar las extension functions que creamos
+
+// PED: Configurar opciones de Kotlin usando extension function de buildSrc
+configureKotlinOptions {
+    kotlinOptions {
+        jvmTarget = BuildConfig.jvmTarget
+        freeCompilerArgs = listOf(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-Xjsr305=strict"
+        )
+    }
+}
+
+// PED: Usar extension function condicional
+onlyIf(!BuildConfig.isCI) {
+    logger.info("🏠 Configuración para entorno local detectada")
+}
+
+// PED: Configurar por fases usando sealed classes
+configureForPhase(BuildPhase.Compile) {
+    logger.info("⚙️  Configurando fase de compilación...")
+}
+
+// PED: Crear task usando nuestro DSL personalizado
+customTask("validateEnvironment") {
+    taskGroup = "verification"
+    taskDescription = "Valida que el entorno de desarrollo esté correctamente configurado"
+    
+    whenCondition { 
+        // PED: Lambda que determina cuándo ejecutar la task
+        !BuildConfig.isCI 
+    }
+    
+    action {
+        val envConfig = getEnvironmentConfig()
+        println("🔍 VALIDACIÓN DEL ENTORNO")
+        println("=" * 30)
+        envConfig.forEach { (key, value) ->
+            println("$key: $value")
+        }
+        println("Timestamp: ${BuildConfig.buildTimestamp}")
+        println("Es proyecto root: $isRootProject")
+    }
+}
+
+// PED: Usar custom dependencies DSL (ejemplo comentado para evitar conflictos)
+/*
+customDependencies {
+    impl "org.example:some-library:1.0.0"
+    testImpl "org.example:test-utils:1.0.0"
+}
+*/
+
+// PED: Crear múltiples reportes usando extension function
+createReportTask("kotlinReport") {
+    buildString {
+        appendLine("📋 REPORTE DE KOTLIN")
+        appendLine("Versión de Kotlin: ${BuildConfig.kotlinVersion}")
+        appendLine("Target JVM: ${BuildConfig.jvmTarget}")
+        appendLine("Entorno: ${BuildConfig.buildEnvironment}")
+        appendLine("Timestamp: ${java.time.Instant.ofEpochMilli(BuildConfig.buildTimestamp)}")
+    }
+}
+
+createReportTask("dependenciesReport") {
+    buildString {
+        appendLine("📦 REPORTE DE DEPENDENCIAS")
+        val runtimeDeps = configurations.runtimeClasspath.get().allDependencies
+        appendLine("Total dependencias: ${runtimeDeps.size}")
+        runtimeDeps.take(5).forEach { dep ->
+            appendLine("- ${dep.group}:${dep.name}:${dep.version}")
+        }
+        if (runtimeDeps.size > 5) {
+            appendLine("... y ${runtimeDeps.size - 5} más")
+        }
+    }
+}
+
+// PED: Setup defaults usando scope functions
+setupProjectDefaults()
+
+// PED: Task que demuestra el uso de operator overloading (String.times)
+tasks.register("printBanner") {
+    group = "reporting"
+    description = "Imprime un banner usando operator overloading de Kotlin"
+    
+    doLast {
+        println("🎓 " + "=" * 50)
+        println("   CURSO AVANZADO DE KOTLIN - Phase 1.2")
+        println("   Gradle Build System Setup")
+        println("🎓 " + "=" * 50)
+        println()
+        println("✨ Conceptos Kotlin demostrados en este build:")
+        println("   • Extension Functions & Properties")
+        println("   • Higher-Order Functions & Lambdas")
+        println("   • DSL (Domain Specific Language)")
+        println("   • Scope Functions (apply, let, also, etc.)")
+        println("   • Sealed Classes & Pattern Matching")
+        println("   • Infix Functions & Operator Overloading")
+        println("   • Object Singletons & Computed Properties")
+        println("   • Reified Generics")
+        println()
+    }
+}
