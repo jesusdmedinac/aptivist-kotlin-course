@@ -1,3 +1,4 @@
+import java.time.Instant
 
 // 📝 CONFIGURACIÓN GRADLE CON KOTLIN DSL AVANZADA (Phase 1.2)
 // Este archivo demuestra características avanzadas del sistema de build de Gradle
@@ -6,7 +7,7 @@
 plugins {
     // PED: El bloque 'plugins' es un DSL (Domain Specific Language) que permite
     // una sintaxis clara y type-safe para configurar plugins
-    kotlin("jvm") version "1.9.22" // Upgraded to more recent version
+    kotlin("jvm")
     application
     
     // PED: Nuevos plugins que demuestran configuración avanzada
@@ -169,7 +170,7 @@ tasks.jar {
                 "Implementation-Title" to project.name,
                 "Implementation-Version" to project.version,
                 "Built-By" to System.getProperty("user.name"),
-                "Build-Timestamp" to java.time.Instant.now().toString()
+                "Build-Timestamp" to Instant.now().toString()
             )
         )
     }
@@ -303,7 +304,7 @@ createReportTask("kotlinReport") {
         appendLine("Versión de Kotlin: ${BuildConfig.kotlinVersion}")
         appendLine("Target JVM: ${BuildConfig.jvmTarget}")
         appendLine("Entorno: ${BuildConfig.buildEnvironment}")
-        appendLine("Timestamp: ${java.time.Instant.ofEpochMilli(BuildConfig.buildTimestamp)}")
+        appendLine("Timestamp: ${Instant.ofEpochMilli(BuildConfig.buildTimestamp)}")
     }
 }
 

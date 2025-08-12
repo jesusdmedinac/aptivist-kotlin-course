@@ -1,5 +1,6 @@
 
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.kotlin.dsl.*
 
@@ -25,7 +26,7 @@ val Project.isRootProject: Boolean
     get() = this == rootProject
 
 // PED: Extension function que demuestra el uso de reified generics
-inline fun <reified T> TaskContainer.configureAll(noinline configuration: T.() -> Unit) {
+inline fun <reified T : Task> TaskContainer.configureAll(noinline configuration: T.() -> Unit) {
     withType<T>().configureEach(configuration)
 }
 
