@@ -3,7 +3,7 @@
 
 ## ✅ Progreso del Curso
 
-**Fase Actual:** Phase 1.1 - Logging y Configuración Básica ✅ COMPLETADA
+**Fase Actual:** Phase 1.2 - Gradle Build System Setup ✅ COMPLETADA
 
 Marca cada tema conforme lo vayas completando:
 
@@ -23,10 +23,10 @@ Marca cada tema conforme lo vayas completando:
 
 ### Conceptos Avanzados
 - **Clases y Funciones Avanzadas**
-  - [ ] Tipos de Clases: `open`, `sealed`, `data`, `enum`
-  - [ ] `Extension Functions` & `Infix Functions`
-  - [ ] `Higher-Order Functions` (HOFs)
-  - [ ] `Scope Functions`: `let`, `run`, `with`, `also`, `apply`
+  - [x] Tipos de Clases: `open`, `sealed`, `data`, `enum` ✅ Phase 1.2 (sealed classes con pattern matching)
+  - [x] `Extension Functions` & `Infix Functions` ✅ Phase 1.2 (buildSrc utilities y DSL)
+  - [x] `Higher-Order Functions` (HOFs) ✅ Phase 1.2 (lambdas en Gradle tasks y configuración)
+  - [x] `Scope Functions`: `let`, `run`, `with`, `also`, `apply` ✅ Phase 1.2 (apply, let, also, with, takeIf)
 - **Seguridad contra Nulos (`Null Safety`)**
   - [x] Operadores: `?`, `!!`, `?:` ✅ Phase 1.1 (Operador Elvis para defaults)
 - **Herencia y Modificadores de Acceso**
@@ -127,3 +127,36 @@ En esta fase implementamos la infraestructura básica de logging y configuració
 - Patterns de inicialización estática en Kotlin
 - Manejo seguro de recursos y archivos
 - Aplicación práctica de null safety en configuraciones
+
+### ✅ Phase 1.2: Gradle Build System Setup (COMPLETADA)
+
+En esta fase implementamos un sistema de build avanzado con Gradle, demostrando características avanzadas de Kotlin a través de DSL, extension functions, y programación funcional:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Extension Functions**: Creamos funciones que extienden Project, TaskContainer y otros tipos de Gradle
+- **Higher-Order Functions**: Implementamos lambdas y funciones que reciben otras funciones como parámetros
+- **DSL (Domain Specific Language)**: Construimos DSLs personalizados para configuración de tasks y dependencias
+- **Scope Functions**: Aplicación práctica de `apply`, `let`, `also`, `with`, `takeIf` en configuración de build
+- **Sealed Classes**: Uso de sealed classes con pattern matching usando `when` expressions
+- **Object Singletons**: BuildConfig como singleton thread-safe con propiedades computadas
+- **Infix Functions**: Creación de funciones infix para sintaxis más fluida en DSL
+- **Operator Overloading**: Implementación del operador `*` personalizado para String
+- **Reified Generics**: Uso de generics reificados en extension functions
+
+**📂 Archivos Creados/Modificados:**
+- `buildSrc/build.gradle.kts` - Módulo buildSrc con Kotlin DSL
+- `buildSrc/src/main/kotlin/BuildConfig.kt` - Object singleton con configuración centralizada
+- `buildSrc/src/main/kotlin/ProjectExtensions.kt` - Extension functions para Project y TaskContainer
+- `buildSrc/src/main/kotlin/TaskDsl.kt` - DSL personalizado para tasks y configuración avanzada
+- `build.gradle.kts` - Build script principal con tasks personalizados y configuración avanzada
+- `gradle/wrapper/gradle-wrapper.properties` - Actualización a Gradle 8.7
+
+**🎓 Lecciones Aprendidas:**
+- Creación de DSL type-safe usando Kotlin para configuración declarativa
+- Extension functions como mecanismo de extensibilidad sin herencia
+- Higher-Order Functions para configuración flexible y reutilizable
+- Scope functions para transformación y configuración de objetos
+- Pattern matching exhaustivo con sealed classes
+- Separación de lógica de build en módulos reutilizables (buildSrc)
+- Operator overloading para crear APIs más expresivas
+- Lazy evaluation y computed properties para configuración eficiente
