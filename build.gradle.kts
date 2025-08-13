@@ -10,6 +10,9 @@ plugins {
     kotlin("jvm")
     application
     
+    // PED: Plugin para kotlinx.serialization (Phase 1.3)
+    kotlin("plugin.serialization") version "1.9.22"
+    
     // PED: Nuevos plugins que demuestran configuración avanzada
     id("org.jetbrains.dokka") version "1.9.10" // Documentación automática
     id("jacoco") // Code coverage reporting
@@ -40,6 +43,11 @@ dependencies {
     
     // PED: Nuevas dependencias para demostrar configuración avanzada
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    
+    // Phase 1.3: Dependencias para kotlinx.serialization y JSON handling
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    
+    // PED: Jackson dependencies (keeping for future phases)
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
     
@@ -62,12 +70,17 @@ application {
     )
 }
 
-// PED: REGION - Configuración del compilador usando task configuration
-// Demuestra cómo las tasks son objetos configurables con DSL
+// PED: REGION - Configuración del compilador usando JVM Toolchain (Phase 1.3)
+// JVM Toolchain es la forma moderna y recomendada de configurar JVM target
+kotlin {
+    jvmToolchain(17) // Phase 1.3: Configuración moderna de JVM target
+}
+
+// PED: REGION - Configuración adicional del compilador Kotlin
 tasks.compileKotlin {
-    // PED: kotlinOptions es un closure que configura el compilador
+    // PED: kotlinOptions para características experimentales
     kotlinOptions {
-        jvmTarget = "11"
+        // jvmTarget se configura automáticamente por jvmToolchain
         // PED: Habilitamos características experimentales de Kotlin
         freeCompilerArgs = listOf(
             "-opt-in=kotlin.RequiresOptIn",
