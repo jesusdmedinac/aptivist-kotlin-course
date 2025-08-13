@@ -3,7 +3,7 @@
 
 ## ✅ Progreso del Curso
 
-**Fase Actual:** Phase 1.2 - Gradle Build System Setup ✅ COMPLETADA
+**Fase Actual:** Phase 1.3 - Basic MCP Server Structure ✅ COMPLETADA
 
 Marca cada tema conforme lo vayas completando:
 
@@ -16,10 +16,10 @@ Marca cada tema conforme lo vayas completando:
   - [ ] Primitivos: Numéricos, Texto, Booleanos
   - [ ] Tipos Especiales: `Any`, `Unit`, `Nothing`
 - **Funciones, Clases y Objetos**
-  - [ ] Argumentos Nombrados y No Nombrados
+  - [x] Argumentos Nombrados y No Nombrados ✅ Phase 1.3 (constructor parameters, named args)
   - [ ] Parámetros `vararg`
-  - [ ] Tipos de Retorno
-  - [ ] Chequeo de Tipos y `Smart Casts`
+  - [x] Tipos de Retorno ✅ Phase 1.3 (nullable returns, Result<T>, suspend functions)
+  - [x] Chequeo de Tipos y `Smart Casts` ✅ Phase 1.3 (when expressions con sealed classes)
 
 ### Conceptos Avanzados
 - **Clases y Funciones Avanzadas**
@@ -38,16 +38,16 @@ Marca cada tema conforme lo vayas completando:
   - [ ] Transformaciones (ej. `map`, `filter`, `groupBy`)
   - [ ] Rangos y Progresiones
 - **Flujo de Control**
-  - [ ] Condicionales: `if`, `when`
+  - [x] Condicionales: `if`, `when` ✅ Phase 1.3 (when expressions exhaustivo con sealed classes)
   - [ ] Bucles: `for`, `while`
 
 ### Programación Asíncrona
 - **Coroutines**
-  - [ ] Constructores (`Builders`): `launch`, `async`, `runBlocking`
-  - [ ] `Coroutine Scopes`
-  - [ ] `suspend` Functions
+  - [x] Constructores (`Builders`): `launch`, `async`, `runBlocking` ✅ Phase 1.3 (server lifecycle y examples)
+  - [x] `Coroutine Scopes` ✅ Phase 1.3 (CoroutineScope para server management)
+  - [x] `suspend` Functions ✅ Phase 1.3 (async message handling y I/O operations)
 - **Flow**
-  - [ ] `Hot Streams` vs. `Cold Streams`
+  - [x] `Hot Streams` vs. `Cold Streams` ✅ Phase 1.3 (Channel vs Flow comparison)
   - [ ] `Flow` vs. `SharedFlow` vs. `StateFlow`
 
 ## Temas
@@ -160,3 +160,41 @@ En esta fase implementamos un sistema de build avanzado con Gradle, demostrando 
 - Separación de lógica de build en módulos reutilizables (buildSrc)
 - Operator overloading para crear APIs más expresivas
 - Lazy evaluation y computed properties para configuración eficiente
+
+### ✅ Phase 1.3: Basic MCP Server Structure (COMPLETADA)
+
+En esta fase implementamos la estructura completa del servidor MCP con protocolos de comunicación JSON-RPC, introduciendo conceptos avanzados de arquitectura de software y programación asíncrona:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Interfaces**: Definición de contratos con McpServer, McpConnection, McpMessageHandler para abstracción y testabilidad
+- **Data Classes**: Modelado de mensajes JSON-RPC y protocolo MCP con serialización automática
+- **Sealed Classes**: Jerarquías type-safe para JsonRpcMessage y McpMessage con pattern matching exhaustivo
+- **Abstract Classes**: BaseMcpServer implementando Template Method Pattern para código reutilizable
+- **Coroutines**: Programación asíncrona con launch, runBlocking, suspend functions y CoroutineScope
+- **Flow & Channels**: Streams reactivos para message processing y comunicación between coroutines
+- **JSON Serialization**: kotlinx.serialization para conversión automática entre Kotlin objects y JSON
+- **Extension Functions**: API fluida con toJson(), fromJson() y domain-specific extensions
+- **When Expressions**: Pattern matching exhaustivo con smart casts para type-safe handling
+- **Builder Pattern**: McpMessageHandlerBuilder con fluent API y method chaining
+- **Result<T>**: Functional error handling sin exceptions para operaciones que pueden fallar
+- **Mock Implementations**: Patterns para testing y development con placeholder functionality
+
+**📂 Archivos Creados/Modificados:**
+- `mcp/protocol/JsonRpcMessage.kt` - Sealed classes y data classes para JSON-RPC básico
+- `mcp/protocol/McpProtocol.kt` - Messages y capabilities específicos del protocolo MCP
+- `mcp/server/McpServer.kt` - Interfaces principales y abstract server implementation
+- `mcp/json/JsonSerializer.kt` - Utilities para serialización JSON con error handling
+- `mcp/server/McpServerImpl.kt` - Implementación concreta con coroutines y channels
+- `mcp/handler/DefaultMcpMessageHandler.kt` - Message handler con builder pattern
+- `mcp/examples/McpServerExample.kt` - Aplicación completa demostrando usage patterns
+
+**🎓 Lecciones Aprendidas:**
+- Diseño de APIs type-safe usando sealed classes y interfaces
+- Arquitectura basada en composition over inheritance para flexibilidad
+- Programación asíncrona reactiva con coroutines, Flow y channels
+- JSON serialization automática con annotations y type safety
+- Error handling funcional con Result<T> y extension functions
+- Builder pattern para object construction con APIs fluidas
+- Template Method Pattern para code reuse en abstract classes
+- Mock implementations y dependency injection para testabilidad
+- Integration de logging structured en arquitecturas asíncronas
