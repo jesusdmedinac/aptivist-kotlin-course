@@ -50,6 +50,9 @@ class KtorServer(
     // PED: WebSocket handler para manejar conexiones WebSocket
     private val webSocketHandler = WebSocketHandler()
     
+    // PED: MCP bridge para integrar servidor MCP con WebSockets
+    private val mcpBridge = createMcpHttpBridge()
+    
     /**
      * PED: Función suspend que inicia el servidor de manera asíncrona
      * 
@@ -178,6 +181,13 @@ class KtorServer(
                 webSocketHandler.handleConnection(this)
             }
             
+            // PED: WebSocket endpoint específico para protocolo MCP
+            webSocket("/mcp") {
+                // PED: Bridge que conecta WebSocket con el servidor MCP
+                // Permite que clientes MCP se conecten vía WebSocket
+                mcpBridge.handleMcpConnection(this)
+            }
+            
             // PED: WebSocket endpoint para testing y desarrollo
             webSocket("/ws/test") {
                 logger.info("🧪 Nueva conexión WebSocket de testing")
@@ -232,7 +242,8 @@ suspend fun startKtorServerExample() {
         println("   GET /health - Health check")
         println("   GET /info - Información del servidor (incluye stats WebSocket)")
         println("🔌 WebSocket Endpoints disponibles:")
-        println("   WS /ws - Endpoint principal para comunicación MCP")
+        println("   WS /ws - Endpoint general para comunicación WebSocket")
+        println("   WS /mcp - Endpoint específico para protocolo MCP")
         println("   WS /ws/test - Endpoint de testing (echo server)")
         println("⏹️  Presiona Ctrl+C para detener...")
         
