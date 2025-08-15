@@ -34,7 +34,7 @@ object JsonSerializer {
      * - prettyPrint: formatea JSON para legibilidad (útil para debugging)
      * - encodeDefaults: incluye propiedades con valores por defecto
      */
-    private val jsonConfig = Json {
+    val jsonConfig = Json {
         ignoreUnknownKeys = true
         prettyPrint = true
         encodeDefaults = true

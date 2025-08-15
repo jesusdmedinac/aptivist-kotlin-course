@@ -6,7 +6,7 @@
 object BuildConfig {
     // PED: const val crea una constante de tiempo de compilación
     const val kotlinVersion = "1.9.22"
-    const val jvmTarget = "11"
+    const val jvmTarget = "17"
     
     // PED: val normal se evalúa en runtime (vs const val en compile-time)
     val buildTimestamp: Long = System.currentTimeMillis()
