@@ -47,6 +47,15 @@ dependencies {
     // Phase 1.3: Dependencias para kotlinx.serialization y JSON handling
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     
+    // Phase 2.1: Ktor dependencies para HTTP server y WebSockets
+    implementation("io.ktor:ktor-server-core:2.3.7")
+    implementation("io.ktor:ktor-server-netty:2.3.7")
+    implementation("io.ktor:ktor-server-websockets:2.3.7")
+    implementation("io.ktor:ktor-server-content-negotiation:2.3.7")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+    implementation("io.ktor:ktor-server-cors:2.3.7")
+    implementation("io.ktor:ktor-server-call-logging:2.3.7")
+    
     // PED: Jackson dependencies (keeping for future phases)
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")

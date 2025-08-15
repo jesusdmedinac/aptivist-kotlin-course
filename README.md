@@ -3,7 +3,7 @@
 
 ## ✅ Progreso del Curso
 
-**Fase Actual:** Phase 1.3 - Basic MCP Server Structure ✅ COMPLETADA
+**Fase Actual:** Phase 2.1 - HTTP Server with Ktor 🚧 EN PROGRESO
 
 Marca cada tema conforme lo vayas completando:
 
