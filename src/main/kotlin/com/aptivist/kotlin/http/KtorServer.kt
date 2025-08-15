@@ -9,11 +9,13 @@ import io.ktor.server.routing.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.calllogging.*
+import io.ktor.server.websocket.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 import com.aptivist.kotlin.mcp.json.JsonSerializer
+import java.time.Duration
 
 /**
  * PED: SERVIDOR HTTP CON KTOR (Phase 2.1)
@@ -44,6 +46,9 @@ class KtorServer(
     
     // PED: Nullable property para el servidor - demuestra null safety
     private var server: NettyApplicationEngine? = null
+    
+    // PED: WebSocket handler para manejar conexiones WebSocket
+    private val webSocketHandler = WebSocketHandler()
     
     /**
      * PED: Función suspend que inicia el servidor de manera asíncrona
@@ -113,6 +118,15 @@ class KtorServer(
             // PED: Configuración usando DSL
             level = org.slf4j.event.Level.INFO
         }
+        
+        // PED: WebSockets plugin para comunicación bidireccional en tiempo real
+        install(WebSockets) {
+            // PED: Configuración de timeouts para WebSocket connections
+            pingPeriod = Duration.ofSeconds(15) // Ping cada 15 segundos
+            timeout = Duration.ofSeconds(15)    // Timeout de 15 segundos
+            maxFrameSize = Long.MAX_VALUE       // Tamaño máximo de frame
+            masking = false                     // Desactivar masking para mejor performance
+        }
     }
     
     /**
@@ -150,8 +164,48 @@ class KtorServer(
                 call.respond(mapOf(
                     "host" to host,
                     "port" to port,
-                    "environment" to (environment.config.propertyOrNull("ktor.environment")?.getString() ?: "development")
+                    "environment" to (environment.config.propertyOrNull("ktor.environment")?.getString() ?: "development"),
+                    "websocket_stats" to webSocketHandler.getConnectionStats()
                 ))
+            }
+            
+            // PED: WEBSOCKET ENDPOINTS - Comunicación bidireccional en tiempo real
+            
+            // PED: WebSocket endpoint principal para comunicación MCP
+            webSocket("/ws") {
+                // PED: Este bloque se ejecuta para cada nueva conexión WebSocket
+                // 'this' es una WebSocketSession que representa la conexión
+                webSocketHandler.handleConnection(this)
+            }
+            
+            // PED: WebSocket endpoint para testing y desarrollo
+            webSocket("/ws/test") {
+                logger.info("🧪 Nueva conexión WebSocket de testing")
+                
+                try {
+                    // PED: Enviar mensaje de bienvenida
+                    send("¡Conectado al endpoint de testing!")
+                    
+                    // PED: Echo server simple para testing
+                    for (frame in incoming) {
+                        when (frame) {
+                            is io.ktor.websocket.Frame.Text -> {
+                                val text = frame.readText()
+                                logger.debug("📨 Test message: $text")
+                                send("Echo: $text")
+                            }
+                            is io.ktor.websocket.Frame.Close -> {
+                                logger.info("🔌 Test connection closed")
+                                break
+                            }
+                            else -> {
+                                logger.debug("🔍 Unsupported frame type in test endpoint")
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    logger.error("❌ Error in test WebSocket: ${e.message}", e)
+                }
             }
         }
     }
@@ -173,10 +227,13 @@ suspend fun startKtorServerExample() {
         
         // PED: delay es una suspend function que no bloquea threads
         println("🌐 Servidor corriendo en http://localhost:8080")
-        println("📋 Endpoints disponibles:")
+        println("📋 HTTP Endpoints disponibles:")
         println("   GET / - Mensaje de bienvenida")
         println("   GET /health - Health check")
-        println("   GET /info - Información del servidor")
+        println("   GET /info - Información del servidor (incluye stats WebSocket)")
+        println("🔌 WebSocket Endpoints disponibles:")
+        println("   WS /ws - Endpoint principal para comunicación MCP")
+        println("   WS /ws/test - Endpoint de testing (echo server)")
         println("⏹️  Presiona Ctrl+C para detener...")
         
         // PED: En un ejemplo real, aquí esperaríamos una señal para detener
