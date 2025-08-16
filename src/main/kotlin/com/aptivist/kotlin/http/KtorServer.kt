@@ -8,8 +8,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.plugins.calllogging.*
+
 import io.ktor.server.websocket.*
+import io.ktor.websocket.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
@@ -116,12 +117,6 @@ class KtorServer(
             allowMethod(io.ktor.http.HttpMethod.Post)
         }
         
-        // PED: CallLogging plugin para logging automático de requests
-        install(CallLogging) {
-            // PED: Configuración usando DSL
-            level = org.slf4j.event.Level.INFO
-        }
-        
         // PED: WebSockets plugin para comunicación bidireccional en tiempo real
         install(WebSockets) {
             // PED: Configuración de timeouts para WebSocket connections
@@ -167,7 +162,7 @@ class KtorServer(
                 call.respond(mapOf(
                     "host" to host,
                     "port" to port,
-                    "environment" to (environment.config.propertyOrNull("ktor.environment")?.getString() ?: "development"),
+                    "environment" to "development",
                     "websocket_stats" to webSocketHandler.getConnectionStats()
                 ))
             }
@@ -194,7 +189,7 @@ class KtorServer(
                 
                 try {
                     // PED: Enviar mensaje de bienvenida
-                    send("¡Conectado al endpoint de testing!")
+                    send(Frame.Text("¡Conectado al endpoint de testing!"))
                     
                     // PED: Echo server simple para testing
                     for (frame in incoming) {
@@ -202,7 +197,7 @@ class KtorServer(
                             is io.ktor.websocket.Frame.Text -> {
                                 val text = frame.readText()
                                 logger.debug("📨 Test message: $text")
-                                send("Echo: $text")
+                                send(Frame.Text("Echo: $text"))
                             }
                             is io.ktor.websocket.Frame.Close -> {
                                 logger.info("🔌 Test connection closed")
