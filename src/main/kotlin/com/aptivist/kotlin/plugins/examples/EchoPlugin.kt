@@ -202,17 +202,18 @@ class EchoPlugin : BasePlugin(
             )
         ) {
             override suspend fun executeCommand(context: CommandContext): CommandResult {
+                val pluginMeta = this@EchoPlugin.metadata
                 val info = buildString {
                     appendLine("🔊 ECHO PLUGIN INFORMACIÓN")
-                    appendLine("=" * 30)
-                    appendLine("ID: ${metadata.id}")
-                    appendLine("Nombre: ${metadata.name}")
-                    appendLine("Versión: ${metadata.version}")
-                    appendLine("Autor: ${metadata.author}")
-                    appendLine("Descripción: ${metadata.description}")
-                    appendLine("Estado: ${currentState::class.simpleName}")
-                    appendLine("Capacidades: ${metadata.capabilities.joinToString()}")
-                    appendLine("Comandos disponibles: ${pluginCommands.size}")
+                    appendLine("=".repeat(30))
+                    appendLine("ID: ${pluginMeta.id}")
+                    appendLine("Nombre: ${pluginMeta.name}")
+                    appendLine("Versión: ${pluginMeta.version}")
+                    appendLine("Autor: ${pluginMeta.author}")
+                    appendLine("Descripción: ${pluginMeta.description}")
+                    appendLine("Estado: ${this@EchoPlugin.currentState::class.simpleName}")
+                    appendLine("Capacidades: ${pluginMeta.capabilities.joinToString()}")
+                    appendLine("Comandos disponibles: ${this@EchoPlugin.pluginCommands.size}")
                 }
                 
                 return CommandResult.Success(info)
@@ -243,7 +244,7 @@ class EchoPlugin : BasePlugin(
             )
             
             execute { context ->
-                val delayMs = context.getArgumentOrDefault(0, this@buildCommand)?.toLongOrNull() ?: 1000L
+                val delayMs = context.arguments.getOrNull(0)?.toLongOrNull() ?: 1000L
                 
                 if (delayMs < 0 || delayMs > 10000) {
                     return@execute CommandResult.Error("Delay debe estar entre 0 y 10000 ms")
