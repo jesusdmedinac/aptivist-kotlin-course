@@ -9,6 +9,7 @@ import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
+import kotlin.math.pow
 
 /**
  * 🛠️ UTILITY PLUGIN - PLUGIN CON COMANDOS UTILITARIOS (Phase 2.2)
@@ -176,7 +177,7 @@ class UtilityPlugin : BasePlugin(
         )
         
         execute { context ->
-            val format = context.getArgumentOrDefault(0, this@buildCommand) ?: "default"
+            val format = context.arguments.getOrNull(0) ?: "default"
             val now = LocalDateTime.now()
             
             val result = when (format.lowercase()) {
@@ -288,7 +289,7 @@ class UtilityPlugin : BasePlugin(
         )
         
         execute { context ->
-            val dirPath = context.getArgumentOrDefault(0, this@buildCommand) ?: "."
+            val dirPath = context.arguments.getOrNull(0) ?: "."
             val detailed = "--detailed" in context.options || "-l" in context.options
             
             try {
@@ -305,7 +306,7 @@ class UtilityPlugin : BasePlugin(
                 
                 val result = buildString {
                     appendLine("📁 CONTENIDO DE: ${directory.absolutePath}")
-                    appendLine("=" * 50)
+                    appendLine("=".repeat(50))
                     
                     if (files.isEmpty()) {
                         appendLine("(Directorio vacío)")
@@ -441,7 +442,7 @@ class UtilityPlugin : BasePlugin(
                         }
                         num1 / num2
                     }
-                    "^", "**" -> kotlin.math.pow(num1, num2)
+                    "^", "**" -> num1.pow(num2)
                     "%" -> num1 % num2
                     else -> return@execute CommandResult.Error("Operación no soportada: $operation")
                 }

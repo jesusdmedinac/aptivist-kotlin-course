@@ -278,7 +278,7 @@ fun EchoPlugin.getStatistics(): Map<String, Any> = mapOf(
     "id" to metadata.id,
     "name" to metadata.name,
     "version" to metadata.version,
-    "state" to currentState::class.simpleName,
+    "state" to (currentState::class.simpleName ?: "Unknown"),
     "commands" to getPluginCommands().size,
     "capabilities" to metadata.capabilities.size,
     "isActive" to isActive()
