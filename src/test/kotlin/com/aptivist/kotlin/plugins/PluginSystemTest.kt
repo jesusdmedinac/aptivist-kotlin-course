@@ -3,6 +3,7 @@ package com.aptivist.kotlin.plugins
 
 import com.aptivist.kotlin.plugins.commands.*
 import com.aptivist.kotlin.plugins.examples.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -42,9 +43,11 @@ class PluginSystemTest {
     }
     
     @AfterEach
-    fun cleanup() = runBlocking {
-        pluginManager.shutdown()
-        commandRegistry.clear()
+    fun cleanup() {
+        runBlocking {
+            pluginManager.shutdown()
+            commandRegistry.clear()
+        }
     }
     
     @Test
@@ -262,7 +265,7 @@ class PluginSystemTest {
         
         // PED: Execute multiple commands concurrently
         val jobs = (1..5).map { i ->
-            kotlinx.coroutines.async {
+            async {
                 commandRegistry.executeCommand("slow", listOf(i.toString()).toCommandContext())
             }
         }

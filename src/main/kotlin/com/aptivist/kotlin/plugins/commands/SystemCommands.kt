@@ -2,6 +2,7 @@
 package com.aptivist.kotlin.plugins.commands
 
 import com.aptivist.kotlin.Config
+import com.aptivist.kotlin.times
 import kotlinx.coroutines.delay
 
 /**
@@ -49,7 +50,7 @@ object SystemCommands {
         )
         
         execute { context ->
-            val commandName = context.getArgumentOrDefault(0, this@buildCommand)
+            val commandName = context.arguments.getOrNull(0)
             
             if (commandName != null) {
                 // PED: Ayuda específica de comando (se implementaría con acceso al registry)
@@ -186,7 +187,7 @@ object SystemCommands {
         )
         
         execute { context ->
-            val key = context.getArgumentOrDefault(0, this@buildCommand)
+            val key = context.arguments.getOrNull(0)
             
             if (key != null) {
                 // PED: Mostrar configuración específica

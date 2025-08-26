@@ -244,11 +244,8 @@ abstract class BasePlugin(
     protected fun emitEvent(event: PluginEvent) {
         _events.tryEmit(event)
     }
-    
-    /**
-     * PED: Protected method para logging contextual.
-     */
-    protected fun logWithContext(level: String, message: String, throwable: Throwable? = null) {
+
+    fun logWithContext(level: String, message: String, throwable: Throwable? = null) {
         val contextMessage = "[${metadata.id}] $message"
         when (level.uppercase()) {
             "DEBUG" -> pluginLogger.debug(contextMessage, throwable)

@@ -70,7 +70,7 @@ dependencies {
 // Esta sección demuestra cómo usar closures (lambdas) para configurar objetos
 application {
     // PED: mainClass es un Property<String> que acepta configuración lazy
-    mainClass.set("com.aptivist.kotlin.AppKt")
+    mainClass.set("com.aptivist.kotlin.mcp.examples.McpServerExampleKt")
     
     // PED: applicationDefaultJvmArgs es un List<String> mutable
     applicationDefaultJvmArgs = listOf(
@@ -127,7 +127,20 @@ tasks.jacocoTestReport {
 }
 
 // PED: REGION - Task personalizada demostrando DSL y lambdas
-// Esta task muestra cómo crear configuración personalizada usando Kotlin DSL
+// Configuración para crear un JAR con todas las dependencias
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.aptivist.kotlin.App"
+    }
+    // Incluye todas las dependencias en el JAR
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }) {
+        exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
+    }
+    // Para evitar el error de duplicados
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// PED: Esta task personalizada demuestra cómo usar el DSL de Gradle para crear tareas complejas
 tasks.register<Copy>("deployResources") {
     // PED: Esta es una Higher-Order Function - una lambda que configura la task
     description = "Copia recursos para deployment usando DSL de Gradle"

@@ -3,6 +3,7 @@ package com.aptivist.kotlin.plugins
 
 import com.aptivist.kotlin.plugins.commands.*
 import com.aptivist.kotlin.plugins.examples.*
+import com.aptivist.kotlin.times
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.slf4j.LoggerFactory
@@ -42,7 +43,7 @@ class PluginSystemExample {
         isolatePlugins = true
     }
     
-    private val commandRegistry = CommandRegistry()
+    val commandRegistry = CommandRegistry()
     
     // PED: Scope para la aplicación con SupervisorJob para error isolation
     private val applicationScope = CoroutineScope(
@@ -50,7 +51,7 @@ class PluginSystemExample {
     )
     
     // PED: Plugins de ejemplo
-    private val examplePlugins = listOf(
+    val examplePlugins = listOf(
         EchoPlugin(),
         UtilityPlugin()
     )

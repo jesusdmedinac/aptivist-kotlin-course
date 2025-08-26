@@ -245,7 +245,7 @@ inline fun command(
  * PED: Builder class para crear comandos complejos con DSL.
  */
 class CommandBuilder {
-    private lateinit var metadata: CommandMetadata
+    private lateinit var commandMetadata: CommandMetadata
     private val arguments = mutableListOf<CommandArgument>()
     private var execution: (suspend (CommandContext) -> CommandResult)? = null
     
@@ -258,7 +258,7 @@ class CommandBuilder {
         aliases: List<String> = emptyList(),
         requiresPlugin: String? = null
     ) {
-        metadata = CommandMetadata(name, description, category, usage, examples, aliases, requiresPlugin)
+        commandMetadata = CommandMetadata(name, description, category, usage, examples, aliases, requiresPlugin)
     }
     
     fun argument(
@@ -276,10 +276,10 @@ class CommandBuilder {
     }
     
     fun build(): Command {
-        require(::metadata.isInitialized) { "Metadata es requerida" }
+        require(::commandMetadata.isInitialized) { "Metadata es requerida" }
         requireNotNull(execution) { "Execution block es requerido" }
         
-        return object : BaseCommand(metadata, arguments) {
+        return object : BaseCommand(commandMetadata, arguments) {
             override suspend fun executeCommand(context: CommandContext): CommandResult {
                 return execution!!(context)
             }

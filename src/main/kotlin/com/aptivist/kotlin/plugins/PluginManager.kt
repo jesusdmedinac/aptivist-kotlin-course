@@ -4,6 +4,7 @@ package com.aptivist.kotlin.plugins
 import com.aptivist.kotlin.mcp.protocol.McpMessage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.sync.withPermit
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URLClassLoader
@@ -34,11 +35,11 @@ import java.util.concurrent.atomic.AtomicLong
  * Demuestra el uso de default parameters y validation.
  */
 data class PluginManagerConfig(
-    val pluginDirectory: String = "plugins",
-    val maxConcurrentLoads: Int = 5,
-    val loadTimeoutMs: Long = 30_000,
-    val enableHotReload: Boolean = false,
-    val isolatePlugins: Boolean = true
+    var pluginDirectory: String = "plugins",
+    var maxConcurrentLoads: Int = 5,
+    var loadTimeoutMs: Long = 30_000,
+    var enableHotReload: Boolean = false,
+    var isolatePlugins: Boolean = true
 ) {
     init {
         // PED: Validation en el init block
@@ -352,13 +353,13 @@ class PluginManager(
     /**
      * PED: Private function para verificar dependencias del plugin.
      */
-    private fun verifyDependencies(plugin: Plugin): Result<Unit> {
+    private fun verifyDependencies(plugin: Plugin): Result<Plugin> {
         val missingDependencies = plugin.metadata.dependencies.filter { depId ->
             !plugins.containsKey(depId)
         }
         
         return if (missingDependencies.isEmpty()) {
-            Result.success(Unit)
+            Result.success(plugin)
         } else {
             Result.failure(
                 IllegalStateException("Dependencias faltantes: ${missingDependencies.joinToString()}")
