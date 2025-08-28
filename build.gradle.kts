@@ -1,3 +1,4 @@
+
 import java.time.Instant
 
 // 📝 CONFIGURACIÓN GRADLE CON KOTLIN DSL AVANZADA (Phase 1.2)
@@ -51,7 +52,7 @@ dependencies {
     // Phase 1.3: Dependencias para kotlinx.serialization y JSON handling
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     
-    // Phase 2.1: Ktor dependencies para HTTP server y WebSockets
+    // Phase 2.1 & 3.2: Ktor dependencies para HTTP server, WebSockets y API REST completa
     implementation("io.ktor:ktor-server-core:2.3.7")
     implementation("io.ktor:ktor-server-netty:2.3.7")
     implementation("io.ktor:ktor-server-websockets:2.3.7")
@@ -59,6 +60,19 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
     implementation("io.ktor:ktor-server-cors:2.3.7")
     implementation("io.ktor:ktor-server-call-logging:2.3.7")
+    
+    // Phase 3.2: Nuevas dependencias para API REST avanzada
+    implementation("io.ktor:ktor-server-status-pages:2.3.7") // Manejo de errores HTTP
+    implementation("io.ktor:ktor-server-request-validation:2.3.7") // Validación de requests
+    implementation("io.ktor:ktor-server-auth:2.3.7") // Autenticación (para futuras fases)
+    implementation("io.ktor:ktor-server-compression:2.3.7") // Compresión de responses
+    implementation("io.ktor:ktor-server-caching-headers:2.3.7") // Headers de cache
+    implementation("io.ktor:ktor-server-conditional-headers:2.3.7") // Headers condicionales
+    implementation("io.ktor:ktor-server-default-headers:2.3.7") // Headers por defecto
+    
+    // Phase 3.2: Testing para API REST
+    testImplementation("io.ktor:ktor-server-tests:2.3.7")
+    testImplementation("io.ktor:ktor-client-content-negotiation:2.3.7")
     
     // PED: Jackson dependencies (keeping for future phases)
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.0")
@@ -277,8 +291,8 @@ class CustomConfigurationSpec(private val project: Project) {
 customConfiguration {
     enableVerboseLogging = true
     customProperties = mapOf(
-        "course.phase" to "1.2",
-        "course.topic" to "Gradle Build System Setup"
+        "course.phase" to "3.2",
+        "course.topic" to "API REST with Ktor"
     )
 }
 
@@ -371,8 +385,8 @@ tasks.register("printBanner") {
     
     doLast {
         println("🎓 " + "=".repeat(50))
-        println("   CURSO AVANZADO DE KOTLIN - Phase 1.2")
-        println("   Gradle Build System Setup")
+        println("   CURSO AVANZADO DE KOTLIN - Phase 3.2")
+        println("   API REST with Ktor")
         println("🎓 " + "=".repeat(50))
         println()
         println("✨ Conceptos Kotlin demostrados en este build:")
@@ -387,3 +401,4 @@ tasks.register("printBanner") {
         println()
     }
 }
+
