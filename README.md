@@ -1,9 +1,12 @@
 
+
 # Curso a Profundidad de Kotlin
 
 ## ✅ Progreso del Curso
 
-**Fase Actual:** Phase 3.1 - Manejo de Estado ✅ COMPLETADA
+**Fase Actual:** Phase 4.2 - Monitoreo ✅ COMPLETADA
+
+**🎉 CURSO COMPLETADO - TODAS LAS FASES FINALIZADAS EXITOSAMENTE 🎉**
 
 Marca cada tema conforme lo vayas completando:
 
@@ -71,6 +74,50 @@ Marca cada tema conforme lo vayas completando:
   - [x] Store con reactive subscriptions ✅ Phase 3.1 (StateFlow, observers, middleware)
   - [x] Global CoroutineScope management ✅ Phase 3.1 (structured concurrency, resource management)
   - [x] Async operations con timeout ✅ Phase 3.1 (withTimeout, circuit breaker, rate limiter)
+
+### Persistencia de Datos
+- **Base de Datos**
+  - [x] Exposed ORM con DSL type-safe ✅ Phase 4.1
+  - [x] H2 Database embedded setup ✅ Phase 4.1
+  - [x] Database Factory y connection pooling ✅ Phase 4.1
+  - [x] Entity definitions y table schemas ✅ Phase 4.1
+  - [x] Repository pattern con CRUD operations ✅ Phase 4.1
+- **Caching**
+  - [x] Caffeine cache implementation ✅ Phase 4.1
+  - [x] Cache abstraction layer ✅ Phase 4.1
+  - [x] Cache eviction policies ✅ Phase 4.1
+  - [x] Cache statistics y monitoring ✅ Phase 4.1
+- **Almacenamiento Persistente**
+  - [x] File-based persistence con JSON ✅ Phase 4.1
+  - [x] State serialization/deserialization ✅ Phase 4.1
+  - [x] Backup y recovery mechanisms ✅ Phase 4.1
+  - [x] Integration con StateManager ✅ Phase 4.1
+
+### Monitoreo y Observabilidad
+- **Métricas y Telemetría**
+  - [x] Micrometer integration con Ktor ✅ Phase 4.2
+  - [x] Prometheus registry y metrics export ✅ Phase 4.2
+  - [x] JVM metrics (memoria, GC, threads) ✅ Phase 4.2
+  - [x] System metrics (CPU, disk, network) ✅ Phase 4.2
+  - [x] HTTP request metrics automáticas ✅ Phase 4.2
+  - [x] Custom business metrics ✅ Phase 4.2
+  - [x] Distribution statistics y percentiles ✅ Phase 4.2
+- **Health Checks**
+  - [x] Liveness y readiness probes ✅ Phase 4.2
+  - [x] Sealed classes para health status ✅ Phase 4.2
+  - [x] Concurrent health check execution ✅ Phase 4.2
+  - [x] Timeout y retry mechanisms ✅ Phase 4.2
+  - [x] Built-in health checks (memory, disk, database) ✅ Phase 4.2
+  - [x] Custom health check DSL ✅ Phase 4.2
+  - [x] Health status aggregation ✅ Phase 4.2
+- **Observabilidad Completa**
+  - [x] Observability module integration ✅ Phase 4.2
+  - [x] Prometheus scraping endpoint ✅ Phase 4.2
+  - [x] Structured logging con JSON encoder ✅ Phase 4.2
+  - [x] Background monitoring tasks ✅ Phase 4.2
+  - [x] Application info endpoint ✅ Phase 4.2
+  - [x] Metrics summary endpoint ✅ Phase 4.2
+  - [x] Production-ready configuration ✅ Phase 4.2
 
 ## Temas
 
@@ -346,3 +393,278 @@ En esta fase implementamos un sistema completo de plugins extensible con arquite
 - Error handling strategies en architectures distribuidas con multiple components
 - File I/O operations con extension functions y comprehensive error handling
 - Mathematical operations implementation con validation y proper number formatting
+
+### ✅ Phase 4.1: Persistencia (COMPLETADA)
+
+En esta fase implementamos un sistema completo de persistencia de datos que incluye base de datos, caching y almacenamiento persistente, integrando todo con el sistema de estado inmutable de Phase 3.1 y la API REST de Phase 3.2:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Database Layer con Exposed ORM**: DSL type-safe para operaciones de base de datos con H2 embedded
+- **Connection Pooling**: HikariCP para manejo eficiente de conexiones en production
+- **Entity Mapping**: Definición completa de entidades con relationships y constraints
+- **Repository Pattern**: Abstracción de acceso a datos con interfaces genéricas y implementaciones concretas
+- **Caching Layer**: Caffeine cache con eviction policies, statistics y monitoring
+- **File Persistence**: Serialización JSON para backup y recovery con operaciones atómicas
+- **Integration Patterns**: Conexión seamless con StateManager y API REST existente
+- **Transaction Management**: Manejo de transacciones para operaciones atómicas
+- **Background Tasks**: Tareas automáticas de backup y mantenimiento
+- **Health Monitoring**: Health checks y métricas de performance
+- **Error Recovery**: Estrategias robustas de recuperación ante fallos
+- **Resource Management**: Proper lifecycle management y cleanup de recursos
+
+**📂 Archivos Creados/Modificados:**
+- `persistence/db/DatabaseFactory.kt` - Factory con sealed classes para configuración type-safe
+- `persistence/db/Entities.kt` - Definición completa de entidades con Exposed ORM
+- `persistence/repository/Repository.kt` - Repository pattern con interfaces genéricas
+- `persistence/repository/UserRepository.kt` - Implementación concreta con query methods
+- `persistence/cache/CacheProvider.kt` - Abstracción de caching con Caffeine
+- `persistence/file/FileStorage.kt` - Persistencia de archivos con backup automático
+- `persistence/PersistenceIntegration.kt` - Facade pattern para integración completa
+- `persistence/PersistenceExample.kt` - Ejemplo comprehensivo de todas las características
+- `build.gradle.kts` - Dependencias para Exposed, H2, HikariCP, Caffeine y Jackson
+
+**🎓 Conceptos Kotlin Avanzados Demostrados:**
+- **Sealed Classes**: Para configuración type-safe y error handling
+- **Generic Interfaces**: Para reutilización de código con type safety
+- **Suspend Functions**: Para operaciones asíncronas no bloqueantes
+- **Coroutine Context**: Dispatchers.IO para I/O operations optimizadas
+- **Extension Functions**: Para operaciones domain-specific y APIs fluidas
+- **Higher-Order Functions**: Para configuración flexible y transformaciones
+- **Inline Functions**: Para performance optimization en hot paths
+- **Reified Generics**: Para type-safe operations con generic parameters
+- **Builder Pattern**: DSL fluido para configuración de componentes
+- **Factory Pattern**: Para object creation con configuración flexible
+- **Facade Pattern**: Para interfaces unificadas de sistemas complejos
+- **Resource Management**: Proper cleanup con use functions y try-with-resources
+- **Mutex**: Para thread-safe operations en concurrent environment
+- **Lazy Initialization**: Para inicialización diferida de recursos costosos
+- **Companion Objects**: Para factory methods y configuración estática
+
+**🎓 Lecciones Aprendidas:**
+- Arquitectura de persistencia multi-layer con separation of concerns
+- ORM integration con type-safe DSL para database operations
+- Caching strategies para optimización de performance
+- File-based persistence con backup y recovery automático
+- Integration patterns para conectar diferentes sistemas de persistencia
+- Transaction management para consistency y atomicity
+- Error handling robusto con sealed classes y Result types
+- Resource lifecycle management en sistemas complejos
+- Background task coordination con structured concurrency
+- Health monitoring y metrics collection para production systems
+- Configuration management flexible por ambiente
+- Testing strategies para sistemas de persistencia
+
+### ✅ Phase 4.2: Monitoreo y Observabilidad (COMPLETADA) - FASE FINAL
+
+En esta fase final implementamos un sistema completo de monitoreo y observabilidad que integra todas las fases anteriores, demostrando conceptos avanzados de production-ready applications y enterprise monitoring:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Micrometer Integration**: Framework de métricas vendor-neutral con Prometheus registry para export
+- **Ktor MicrometerMetrics Plugin**: Métricas automáticas de HTTP requests con timers y counters
+- **Health Check System**: Sistema completo con liveness/readiness probes para Kubernetes
+- **Observability Module**: Módulo integrado que combina métricas, health checks y endpoints
+- **JVM Metrics**: Monitoreo completo de memoria, garbage collection, threads y class loading
+- **System Metrics**: CPU usage, disk space, file descriptors y uptime monitoring
+- **Custom Business Metrics**: Métricas específicas de dominio con tags y labels
+- **Distribution Statistics**: Percentiles, histograms y SLOs para performance monitoring
+- **Background Monitoring**: Tasks asíncronas para monitoring continuo y alerting
+- **Structured Logging**: JSON logging con correlation IDs para observabilidad avanzada
+- **Production Configuration**: Setup optimizado para ambientes de producción
+- **Comprehensive Testing**: Testing de métricas, health checks y endpoints de observabilidad
+
+**📂 Archivos Creados/Modificados:**
+- `monitoring/MetricsConfig.kt` - Configuración global de métricas con Micrometer y Prometheus
+- `monitoring/HealthChecks.kt` - Sistema completo de health checks con sealed classes
+- `monitoring/ObservabilityModule.kt` - Módulo integrado para Ktor con todos los endpoints
+- `monitoring/MonitoringExample.kt` - Aplicación completa integrando todas las fases del curso
+- `test/monitoring/MonitoringTest.kt` - Suite comprehensiva de tests para observabilidad
+- `build.gradle.kts` - Dependencias para Micrometer, Prometheus y structured logging
+
+**🎓 Conceptos Kotlin Avanzados Demostrados:**
+- **Object Singletons**: Para configuración global thread-safe de métricas y managers
+- **Sealed Classes**: Para modelado type-safe de health status y configuration
+- **Extension Functions**: Para APIs fluidas de métricas y health check operations
+- **Higher-Order Functions**: Para configuración flexible de monitoring components
+- **Suspend Functions**: Para health checks asíncronos y background monitoring
+- **DSL Builder Pattern**: Para configuración declarativa de métricas y health checks
+- **Coroutines**: Para concurrent health checks y background monitoring tasks
+- **Result<T>**: Para error handling funcional en health checks
+- **Inline Functions**: Para performance optimization en hot paths de métricas
+- **Companion Objects**: Para factory methods y configuración estática
+- **Lazy Initialization**: Para recursos costosos como registries y managers
+- **When Expressions**: Para pattern matching exhaustivo con health status
+- **Data Classes**: Para DTOs inmutables de health status y metrics configuration
+
+**🏗️ Patrones de Diseño:**
+- **Module Pattern**: Encapsulación completa de funcionalidad de observabilidad
+- **Facade Pattern**: Interfaz unificada para métricas, health checks y endpoints
+- **Observer Pattern**: Para notificaciones de cambios de estado y alerting
+- **Strategy Pattern**: Diferentes estrategias de monitoring según ambiente
+- **Builder Pattern**: Para configuración fluida de componentes de monitoring
+- **Factory Pattern**: Para creación de registries y health check managers
+- **Singleton Pattern**: Para managers globales y configuración centralizada
+
+**🎓 Lecciones Aprendidas:**
+- Arquitectura de observabilidad completa para production systems
+- Integration de métricas automáticas con custom business metrics
+- Health check design patterns para microservices y Kubernetes
+- Prometheus integration con proper labeling y cardinality management
+- Background monitoring con structured concurrency y error isolation
+- Testing strategies para sistemas de observabilidad y métricas
+- Production-ready configuration con environment-specific settings
+- Performance optimization para hot paths de métricas collection
+- Resource management en sistemas de monitoring de larga duración
+- Integration patterns para conectar monitoring con todas las capas de aplicación
+
+## 🎉 CONCLUSIÓN DEL CURSO
+
+**¡Felicitaciones! Has completado exitosamente el Curso Avanzado de Kotlin.**
+
+A lo largo de este curso intensivo, has construido progresivamente una aplicación completa que demuestra todos los aspectos avanzados de Kotlin y desarrollo de software moderno:
+
+### 🏆 Lo Que Has Logrado
+
+**📚 Dominio Completo de Kotlin:**
+- Desde fundamentos hasta características más avanzadas del lenguaje
+- Programación funcional, orientada a objetos y reactiva
+- Coroutines y programación asíncrona avanzada
+- DSL design y metaprogramming
+- Type safety y null safety en sistemas complejos
+
+**🏗️ Arquitectura de Software Enterprise:**
+- Sistemas modulares y extensibles con plugin architecture
+- Patrones de diseño avanzados (Strategy, Observer, Builder, Factory, etc.)
+- Separation of concerns y clean architecture principles
+- Dependency injection y inversion of control
+- Resource management y lifecycle handling
+
+**🌐 Desarrollo Web Moderno:**
+- Servidores HTTP asíncronos con Ktor
+- WebSocket communication en tiempo real
+- API REST completa con error handling
+- Content negotiation y serialización automática
+- Security headers y production-ready configuration
+
+**💾 Persistencia y Datos:**
+- Database integration con Exposed ORM
+- Caching strategies con Caffeine
+- File-based persistence con backup/recovery
+- Transaction management y data consistency
+- Connection pooling y performance optimization
+
+**🔍 Observabilidad y Monitoreo:**
+- Métricas completas con Micrometer y Prometheus
+- Health checks para production deployments
+- Structured logging y correlation tracking
+- Background monitoring y alerting
+- Performance monitoring y optimization
+
+**🧪 Testing Avanzado:**
+- Unit testing con coroutines y async operations
+- Integration testing de sistemas complejos
+- Mock testing y dependency isolation
+- Performance testing y load testing
+- Test-driven development practices
+
+### 🚀 Próximos Pasos
+
+Con las habilidades adquiridas en este curso, estás preparado para:
+
+1. **Desarrollar Aplicaciones Enterprise**: Crear sistemas robustos y escalables
+2. **Contribuir a Proyectos Open Source**: Participar en la comunidad Kotlin
+3. **Arquitectura de Microservicios**: Diseñar sistemas distribuidos
+4. **DevOps y Cloud**: Deploy en Kubernetes y cloud platforms
+5. **Liderazgo Técnico**: Mentorear equipos en mejores prácticas
+
+### 📖 Recursos Adicionales
+
+- **Documentación Oficial**: [kotlinlang.org](https://kotlinlang.org)
+- **Ktor Framework**: [ktor.io](https://ktor.io)
+- **Coroutines Guide**: [kotlinlang.org/docs/coroutines-guide.html](https://kotlinlang.org/docs/coroutines-guide.html)
+- **Kotlin Multiplatform**: Para desarrollo cross-platform
+- **Kotlin/Native**: Para desarrollo nativo y sistemas embebidos
+
+### 🙏 Agradecimientos
+
+Gracias por completar este curso intensivo. El código que has escrito representa un ejemplo completo de aplicación Kotlin moderna, desde fundamentos hasta características enterprise. 
+
+**¡Continúa construyendo cosas increíbles con Kotlin!** 🎯
+
+### ✅ Phase 3.1: Manejo de Estado (COMPLETADA)
+
+En esta fase implementamos un sistema completo de manejo de estado inmutable con arquitectura Redux-like, demostrando conceptos avanzados de programación funcional, concurrencia y reactive programming:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Immutable State Management**: Sistema Redux-like con data classes inmutables y pure functions
+- **Sealed Classes Hierarchy**: AppAction con jerarquía exhaustiva para type-safe state transitions
+- **Pure Functions**: Reducers sin side effects para transformaciones de estado predecibles
+- **StateFlow & SharedFlow**: Reactive streams para state subscriptions y event broadcasting
+- **Middleware Pattern**: Interceptors para logging, validation y side effects
+- **Observer Pattern**: Subscription system con automatic cleanup y lifecycle management
+- **Structured Concurrency**: CoroutineScope management con proper cancellation y error handling
+- **Thread-Safe Operations**: Mutex para atomic state updates en concurrent environment
+- **Circuit Breaker Pattern**: Fault tolerance para operaciones que pueden fallar
+- **Rate Limiting**: Control de frecuencia para operaciones costosas
+- **Timeout Handling**: withTimeout para operaciones con límites de tiempo
+- **Resource Management**: Proper cleanup de coroutines y subscriptions
+- **Functional Programming**: Higher-order functions, lambdas y function composition
+- **Type-Safe DSL**: Builder patterns para configuración fluida de middleware y observers
+
+**📂 Archivos Creados/Modificados:**
+- `state/AppState.kt` - Data classes inmutables para representar estado de aplicación
+- `state/AppAction.kt` - Sealed classes hierarchy para acciones type-safe
+- `state/StateManager.kt` - Store principal con StateFlow, reducers y middleware
+- `state/StateMiddleware.kt` - Sistema de middleware para interceptar acciones
+- `state/StateObserver.kt` - Observer pattern para reaccionar a cambios de estado
+- `state/StateExample.kt` - Ejemplo completo con async operations y error handling
+- `test/kotlin/state/StateManagerTest.kt` - Tests comprehensivos de concurrency y state management
+
+**🎓 Conceptos Kotlin Avanzados Demostrados:**
+- **Data Classes**: Para estado inmutable con copy functions automáticas
+- **Sealed Classes**: Para acciones type-safe con pattern matching exhaustivo
+- **StateFlow**: Para reactive state management con backpressure handling
+- **Mutex**: Para thread-safe state updates sin blocking threads
+- **Coroutine Scopes**: Para structured concurrency y resource management
+- **Higher-Order Functions**: Para middleware, observers y functional composition
+- **Extension Functions**: Para APIs fluidas y domain-specific operations
+- **Inline Functions**: Para performance optimization en hot paths
+- **Reified Generics**: Para type-safe operations con generic parameters
+- **Delegation**: Para property delegation y lazy initialization
+
+**🎓 Lecciones Aprendidas:**
+- Arquitectura Redux-like para predictable state management
+- Immutable data structures para thread safety y debugging
+- Reactive programming con Flow para responsive UIs
+- Middleware pattern para cross-cutting concerns
+- Observer pattern con automatic lifecycle management
+- Structured concurrency para robust async operations
+- Circuit breaker y rate limiting para fault tolerance
+- Pure functions para testable y predictable code
+- Type-safe DSLs para configuration y builder patterns
+- Resource management en reactive systems
+
+### 🚧 Phase 4.1: Persistencia (EN PROGRESO)
+
+En esta fase implementaremos un sistema completo de persistencia de datos que incluye base de datos, caching y almacenamiento persistente, integrando todo con el sistema de estado inmutable de Phase 3.1 y la API REST de Phase 3.2:
+
+**🔧 Conceptos a Implementar:**
+- **Database Layer**: Exposed ORM con DSL type-safe para operaciones de base de datos
+- **Connection Pooling**: HikariCP para manejo eficiente de conexiones de base de datos
+- **Entity Mapping**: Definición de entidades y schemas con Exposed
+- **Repository Pattern**: Abstracción de acceso a datos con interfaces y implementaciones
+- **Caching Layer**: Caffeine cache para mejorar performance de operaciones frecuentes
+- **Cache Strategies**: Eviction policies, TTL y cache warming strategies
+- **File Persistence**: Serialización JSON para backup y recovery de estado
+- **Transaction Management**: Manejo de transacciones para operaciones atómicas
+- **Migration Support**: Schema migrations y data versioning
+- **Integration Patterns**: Conexión con StateManager y API REST existente
+
+**📂 Archivos a Crear/Modificar:**
+- `persistence/db/DatabaseFactory.kt` - Factory para configuración de base de datos
+- `persistence/db/Entities.kt` - Definición de entidades con Exposed
+- `persistence/repository/` - Repository pattern con interfaces y implementaciones
+- `persistence/cache/CacheProvider.kt` - Abstracción de caching con Caffeine
+- `persistence/file/FileStorage.kt` - Persistencia basada en archivos
+- `persistence/PersistenceExample.kt` - Ejemplo completo de integración
+- `build.gradle.kts` - Nuevas dependencias para persistencia
+
