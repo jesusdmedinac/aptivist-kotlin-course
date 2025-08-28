@@ -3,7 +3,7 @@
 
 ## ✅ Progreso del Curso
 
-**Fase Actual:** Phase 2.2 - Plugin System ✅ COMPLETADA
+**Fase Actual:** Phase 3.1 - Manejo de Estado ✅ COMPLETADA
 
 Marca cada tema conforme lo vayas completando:
 
@@ -64,6 +64,13 @@ Marca cada tema conforme lo vayas completando:
   - [x] `Hot Streams` vs. `Cold Streams` ✅ Phase 1.3 (Channel vs Flow comparison)
   - [x] `Channels` para comunicación entre coroutines ✅ Phase 2.1 (WebSocket message passing)
   - [x] `Flow` vs. `SharedFlow` vs. `StateFlow` ✅ Phase 2.2 (plugin events con SharedFlow, state management con StateFlow)
+- **State Management**
+  - [x] Data classes para estado inmutable ✅ Phase 3.1 (AppState, ServerState, nested data classes)
+  - [x] Sealed classes para acciones type-safe ✅ Phase 3.1 (AppAction hierarchy con pattern matching)
+  - [x] Pure functions y reducers ✅ Phase 3.1 (functional state transformations)
+  - [x] Store con reactive subscriptions ✅ Phase 3.1 (StateFlow, observers, middleware)
+  - [x] Global CoroutineScope management ✅ Phase 3.1 (structured concurrency, resource management)
+  - [x] Async operations con timeout ✅ Phase 3.1 (withTimeout, circuit breaker, rate limiter)
 
 ## Temas
 
@@ -240,6 +247,47 @@ En esta fase implementamos un servidor HTTP completo con soporte para WebSockets
 - `http/WebSocketExample.kt` - Ejemplo de servidor HTTP + WebSocket
 - `http/McpIntegrationExample.kt` - Ejemplo completo de integración multi-protocolo
 - `build.gradle.kts` - Dependencias Ktor agregadas
+
+### ✅ Phase 3.2: API REST (COMPLETADA)
+
+En esta fase implementamos una API REST completa con manejo avanzado de errores, DTOs, y integración con el sistema de estado inmutable de Phase 3.1:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Ktor Plugin System**: Configuración modular con StatusPages, Compression, CORS
+- **Structured Error Handling**: Sealed classes para errores type-safe con mapping a HTTP status codes
+- **Data Transfer Objects (DTOs)**: Separación entre API pública y modelo interno con mapping functions
+- **Content Negotiation**: Serialización/deserialización automática JSON bidireccional
+- **CRUD Operations**: Endpoints REST completos para gestión de recursos
+- **Thread-Safe State Management**: StateManager con Mutex para operaciones atómicas
+- **Request Validation**: Validación integrada con mensajes de error descriptivos
+- **Pagination Support**: Responses paginadas configurables para listas grandes
+- **Health Checks**: Endpoints de monitoreo para liveness y readiness probes
+- **Performance Optimizations**: Compresión automática, cache headers, conditional headers
+- **Security Headers**: Headers de seguridad automáticos (CORS, XSS protection, etc.)
+- **Structured Logging**: Logging con request IDs y filtering de endpoints de health
+
+**📂 Archivos Creados/Modificados:**
+- `http/KtorServer.kt` - Servidor HTTP avanzado con plugin system completo
+- `http/api/ApiError.kt` - Sistema de errores estructurado con sealed classes
+- `http/api/StateDto.kt` - DTOs y mapping functions para API pública
+- `http/api/ApiRoutes.kt` - Endpoints REST con integración de estado
+- `http/api/RestApiExample.kt` - Ejemplo ejecutable con documentación completa
+- `test/kotlin/http/api/ApiErrorTest.kt` - Tests comprehensivos de manejo de errores
+- `test/kotlin/http/api/StateDtoTest.kt` - Tests de DTOs y serialización
+- `test/kotlin/http/api/ApiRoutesTest.kt` - Tests de integración de endpoints
+- `build.gradle.kts` - Dependencias adicionales para API REST avanzada
+
+**🎓 Conceptos Kotlin Avanzados Demostrados:**
+- **Sealed Classes**: Para modelado type-safe de errores y responses polimórficas
+- **Extension Functions**: Para conversiones elegantes entre domain objects y DTOs
+- **Suspend Functions**: Para operaciones asíncronas no bloqueantes en endpoints
+- **Thread Safety**: Uso de Mutex y coroutines para estado compartido seguro
+- **Higher-Order Functions**: Para configuración de plugins y transformaciones
+- **Pattern Matching**: When expressions exhaustivas con sealed classes
+- **Inline Functions**: Para validaciones con lambdas sin overhead de performance
+- **Companion Objects**: Para factory functions y configuración estática
+- **Data Classes**: Para DTOs inmutables con copy functions automáticas
+- **Plugin Architecture**: Sistema modular y extensible usando Ktor plugins
 
 **🎓 Lecciones Aprendidas:**
 - Arquitectura de servidores multi-protocolo usando Kotlin y coroutines
