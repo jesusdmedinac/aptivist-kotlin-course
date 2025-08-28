@@ -248,6 +248,47 @@ En esta fase implementamos un servidor HTTP completo con soporte para WebSockets
 - `http/McpIntegrationExample.kt` - Ejemplo completo de integración multi-protocolo
 - `build.gradle.kts` - Dependencias Ktor agregadas
 
+### ✅ Phase 3.2: API REST (COMPLETADA)
+
+En esta fase implementamos una API REST completa con manejo avanzado de errores, DTOs, y integración con el sistema de estado inmutable de Phase 3.1:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Ktor Plugin System**: Configuración modular con StatusPages, Compression, CORS
+- **Structured Error Handling**: Sealed classes para errores type-safe con mapping a HTTP status codes
+- **Data Transfer Objects (DTOs)**: Separación entre API pública y modelo interno con mapping functions
+- **Content Negotiation**: Serialización/deserialización automática JSON bidireccional
+- **CRUD Operations**: Endpoints REST completos para gestión de recursos
+- **Thread-Safe State Management**: StateManager con Mutex para operaciones atómicas
+- **Request Validation**: Validación integrada con mensajes de error descriptivos
+- **Pagination Support**: Responses paginadas configurables para listas grandes
+- **Health Checks**: Endpoints de monitoreo para liveness y readiness probes
+- **Performance Optimizations**: Compresión automática, cache headers, conditional headers
+- **Security Headers**: Headers de seguridad automáticos (CORS, XSS protection, etc.)
+- **Structured Logging**: Logging con request IDs y filtering de endpoints de health
+
+**📂 Archivos Creados/Modificados:**
+- `http/KtorServer.kt` - Servidor HTTP avanzado con plugin system completo
+- `http/api/ApiError.kt` - Sistema de errores estructurado con sealed classes
+- `http/api/StateDto.kt` - DTOs y mapping functions para API pública
+- `http/api/ApiRoutes.kt` - Endpoints REST con integración de estado
+- `http/api/RestApiExample.kt` - Ejemplo ejecutable con documentación completa
+- `test/kotlin/http/api/ApiErrorTest.kt` - Tests comprehensivos de manejo de errores
+- `test/kotlin/http/api/StateDtoTest.kt` - Tests de DTOs y serialización
+- `test/kotlin/http/api/ApiRoutesTest.kt` - Tests de integración de endpoints
+- `build.gradle.kts` - Dependencias adicionales para API REST avanzada
+
+**🎓 Conceptos Kotlin Avanzados Demostrados:**
+- **Sealed Classes**: Para modelado type-safe de errores y responses polimórficas
+- **Extension Functions**: Para conversiones elegantes entre domain objects y DTOs
+- **Suspend Functions**: Para operaciones asíncronas no bloqueantes en endpoints
+- **Thread Safety**: Uso de Mutex y coroutines para estado compartido seguro
+- **Higher-Order Functions**: Para configuración de plugins y transformaciones
+- **Pattern Matching**: When expressions exhaustivas con sealed classes
+- **Inline Functions**: Para validaciones con lambdas sin overhead de performance
+- **Companion Objects**: Para factory functions y configuración estática
+- **Data Classes**: Para DTOs inmutables con copy functions automáticas
+- **Plugin Architecture**: Sistema modular y extensible usando Ktor plugins
+
 **🎓 Lecciones Aprendidas:**
 - Arquitectura de servidores multi-protocolo usando Kotlin y coroutines
 - WebSocket como protocolo para comunicación bidireccional en tiempo real
