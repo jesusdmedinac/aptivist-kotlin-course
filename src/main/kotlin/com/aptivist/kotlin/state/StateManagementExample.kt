@@ -339,7 +339,7 @@ class StateManagementApplication {
                         
                         // PED: Simulamos actividad de la conexión
                         repeat(5) { messageIndex ->
-                            delay(1.seconds)
+                            delay(1000) // 1 second
                             store.dispatch(
                                 ActionCreators.Connection.updateActivity(
                                     connectionId = "conn-$i",
@@ -379,7 +379,7 @@ class StateManagementApplication {
             GlobalScopeProvider.launchTracked("PluginLoader-$pluginName") {
                 val loadResult = pluginCircuitBreaker.execute(timeout = 15.seconds) {
                     // PED: Simulamos carga de plugin
-                    delay((1..3).seconds)
+                    delay((1..3).random().seconds)
                     
                     if ((1..10).random() > 8) { // 20% chance of failure
                         throw RuntimeException("Plugin dependency not found")
@@ -395,7 +395,7 @@ class StateManagementApplication {
                 when (loadResult) {
                     is AsyncOperations.AsyncResult.Success -> {
                         store.dispatch(loadResult.value)
-                        delay(1.seconds) // Simulate initialization
+                        delay(1000) // Simulate initialization - 1 second
                         store.dispatch(ActionCreators.Plugin.activate("plugin-$index"))
                         
                         // PED: Registramos algunos comandos
@@ -469,7 +469,7 @@ class StateManagementApplication {
         // PED: Mostramos el estado final
         val finalState = store.state.value
         println("\n📊 FINAL STATE SUMMARY")
-        println("=" * 50)
+        println("=".repeat(50))
         println("Server: ${if (finalState.serverState.isRunning) "Running" else "Stopped"} on ${finalState.serverState.address}")
         println("Connections: ${finalState.connectionState.activeConnections.size} active")
         println("Plugins: ${finalState.pluginState.activePlugins.size} active, ${finalState.pluginState.errorPlugins.size} errors")
@@ -477,7 +477,7 @@ class StateManagementApplication {
         println("Theme: ${finalState.uiState.theme}")
         println("Requests processed: ${finalState.serverState.statistics.totalRequests}")
         println("Success rate: ${"%.1f".format(finalState.serverState.statistics.successRate)}%")
-        println("=" * 50)
+        println("=".repeat(50))
     }
     
     /**

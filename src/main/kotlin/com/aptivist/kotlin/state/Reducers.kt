@@ -515,7 +515,7 @@ fun <State, Action> loggingReducer(
     name: String,
     reducer: Reducer<State, Action>
 ): Reducer<State, Action> = { state, action ->
-    println("🔄 [$name] Processing action: ${action::class.simpleName}")
+    println("🔄 [$name] Processing action: ${action?.let { it::class.simpleName } ?: "null"}")
     val newState = reducer(state, action)
     if (newState != state) {
         println("✅ [$name] State updated")
@@ -536,7 +536,7 @@ fun <State, Action> validatingReducer(
     val validationErrors = validator(newState)
     
     if (validationErrors.isNotEmpty()) {
-        println("⚠️ State validation failed after action ${action::class.simpleName}:")
+        println("⚠️ State validation failed after action ${action?.let { it::class.simpleName } ?: "null"}:")
         validationErrors.forEach { error ->
             println("  - $error")
         }

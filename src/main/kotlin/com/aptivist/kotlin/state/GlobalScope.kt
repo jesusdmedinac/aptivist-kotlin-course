@@ -267,7 +267,7 @@ object AsyncOperations {
         fun getOrThrow(): T = when (this) {
             is Success -> value
             is Error -> throw exception
-            is Timeout -> throw TimeoutCancellationException("Operation timed out")
+            is Timeout -> throw CancellationException("Operation timed out")
             is Cancelled -> throw CancellationException("Operation was cancelled")
         }
     }
@@ -732,7 +732,7 @@ object AsyncMonitoring {
             val scheduledTasks = BackgroundTaskManager.getScheduledTasks()
             
             println("📊 ASYNC MONITORING REPORT")
-            println("=" * 40)
+            println("=".repeat(40))
             println("Global Scope Metrics:")
             println("  Active coroutines: ${metrics.activeCoroutines}")
             println("  Completed coroutines: ${metrics.completedCoroutines}")
@@ -756,7 +756,7 @@ object AsyncMonitoring {
                     println("    Last error: $error")
                 }
             }
-            println("=" * 40)
+            println("=".repeat(40))
         }
     }
     
