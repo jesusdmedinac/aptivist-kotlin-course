@@ -44,6 +44,10 @@ dependencies {
     // PED: Nuevas dependencias para demostrar configuración avanzada
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     
+    // Phase 3.1: Dependencias adicionales para state management y async operations
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    
     // Phase 1.3: Dependencias para kotlinx.serialization y JSON handling
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     
