@@ -2,6 +2,7 @@
 package com.aptivist.kotlin.state
 
 import kotlinx.serialization.Serializable
+import java.time.Instant
 
 /**
  * 🎯 PHASE 3.1 - SISTEMA DE ACCIONES PARA STATE MANAGEMENT
@@ -435,7 +436,7 @@ object ActionCreators {
                 name = name,
                 version = version,
                 status = status,
-                loadedAt = System.currentTimeMillis()
+                loadedAt = Instant.now().toEpochMilli()
             )
             return AppAction.Plugin.Load(pluginInfo)
         }
@@ -472,7 +473,7 @@ object ActionCreators {
             val pluginError = PluginError(
                 pluginId = pluginId,
                 error = error,
-                timestamp = System.currentTimeMillis(),
+                timestamp = Instant.now().toEpochMilli(),
                 severity = severity,
                 stackTrace = stackTrace
             )
@@ -498,11 +499,11 @@ object ActionCreators {
             actions: List<NotificationAction> = emptyList()
         ): AppAction.UI.AddNotification {
             val notification = Notification(
-                id = "notif-${System.currentTimeMillis()}-${(0..999).random()}",
+                id = "notif-${Instant.now().toEpochMilli()}-${(0..999).random()}",
                 type = type,
                 title = title,
                 message = message,
-                timestamp = System.currentTimeMillis(),
+                timestamp = Instant.now().toEpochMilli(),
                 actions = actions
             )
             return AppAction.UI.AddNotification(notification)
