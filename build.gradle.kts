@@ -95,6 +95,22 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.0") // Java Time support
     
+    // Phase 4.2: Dependencias para monitoreo y observabilidad
+    // PED: Ktor Micrometer - Plugin para métricas en Ktor usando Micrometer facade
+    implementation("io.ktor:ktor-server-metrics-micrometer:2.3.7") // Metrics collection y HTTP monitoring
+    
+    // PED: Micrometer Prometheus - Registry para exportar métricas a Prometheus
+    implementation("io.micrometer:micrometer-registry-prometheus:1.12.1") // Prometheus metrics export
+    
+    // PED: Micrometer JVM Metrics - Métricas adicionales de JVM (memoria, GC, threads)
+    implementation("io.micrometer:micrometer-core:1.12.1") // Core metrics functionality
+    
+    // PED: Ktor Call Logging - Para logging estructurado de requests HTTP
+    // Ya incluido en Phase 3.2, pero mencionamos su uso para observabilidad
+    
+    // PED: Logback con JSON encoder para structured logging (opcional para observabilidad avanzada)
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4") // JSON structured logging
+    
     // Testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
