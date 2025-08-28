@@ -74,9 +74,26 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests:2.3.7")
     testImplementation("io.ktor:ktor-client-content-negotiation:2.3.7")
     
-    // PED: Jackson dependencies (keeping for future phases)
+    // Phase 4.1: Dependencias para persistencia de datos
+    // PED: Exposed ORM - Framework ORM ligero y type-safe para Kotlin
+    implementation("org.jetbrains.exposed:exposed-core:0.44.1") // Core components y DSL
+    implementation("org.jetbrains.exposed:exposed-dao:0.44.1") // DAO API para ORM-style access
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.44.1") // JDBC support para database connections
+    implementation("org.jetbrains.exposed:exposed-java-time:0.44.1") // Java Time API support
+    
+    // PED: H2 Database - Base de datos embebida para desarrollo y testing
+    implementation("com.h2database:h2:2.2.224") // Lightweight embedded database
+    
+    // PED: HikariCP - Connection pool de alto rendimiento
+    implementation("com.zaxxer:HikariCP:5.1.0") // Production-ready connection pooling
+    
+    // PED: Caffeine Cache - High-performance caching library
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8") // In-memory cache con eviction policies
+    
+    // PED: Jackson dependencies (keeping for JSON file persistence)
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.0") // Java Time support
     
     // Testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")

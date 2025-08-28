@@ -1,9 +1,10 @@
 
+
 # Curso a Profundidad de Kotlin
 
 ## ✅ Progreso del Curso
 
-**Fase Actual:** Phase 3.1 - Manejo de Estado ✅ COMPLETADA
+**Fase Actual:** Phase 4.1 - Persistencia 🚧 EN PROGRESO
 
 Marca cada tema conforme lo vayas completando:
 
@@ -71,6 +72,24 @@ Marca cada tema conforme lo vayas completando:
   - [x] Store con reactive subscriptions ✅ Phase 3.1 (StateFlow, observers, middleware)
   - [x] Global CoroutineScope management ✅ Phase 3.1 (structured concurrency, resource management)
   - [x] Async operations con timeout ✅ Phase 3.1 (withTimeout, circuit breaker, rate limiter)
+
+### Persistencia de Datos
+- **Base de Datos**
+  - [ ] Exposed ORM con DSL type-safe ✅ Phase 4.1
+  - [ ] H2 Database embedded setup ✅ Phase 4.1
+  - [ ] Database Factory y connection pooling ✅ Phase 4.1
+  - [ ] Entity definitions y table schemas ✅ Phase 4.1
+  - [ ] Repository pattern con CRUD operations ✅ Phase 4.1
+- **Caching**
+  - [ ] Caffeine cache implementation ✅ Phase 4.1
+  - [ ] Cache abstraction layer ✅ Phase 4.1
+  - [ ] Cache eviction policies ✅ Phase 4.1
+  - [ ] Cache statistics y monitoring ✅ Phase 4.1
+- **Almacenamiento Persistente**
+  - [ ] File-based persistence con JSON ✅ Phase 4.1
+  - [ ] State serialization/deserialization ✅ Phase 4.1
+  - [ ] Backup y recovery mechanisms ✅ Phase 4.1
+  - [ ] Integration con StateManager ✅ Phase 4.1
 
 ## Temas
 
@@ -346,3 +365,82 @@ En esta fase implementamos un sistema completo de plugins extensible con arquite
 - Error handling strategies en architectures distribuidas con multiple components
 - File I/O operations con extension functions y comprehensive error handling
 - Mathematical operations implementation con validation y proper number formatting
+
+### ✅ Phase 3.1: Manejo de Estado (COMPLETADA)
+
+En esta fase implementamos un sistema completo de manejo de estado inmutable con arquitectura Redux-like, demostrando conceptos avanzados de programación funcional, concurrencia y reactive programming:
+
+**🔧 Nuevos Conceptos Implementados:**
+- **Immutable State Management**: Sistema Redux-like con data classes inmutables y pure functions
+- **Sealed Classes Hierarchy**: AppAction con jerarquía exhaustiva para type-safe state transitions
+- **Pure Functions**: Reducers sin side effects para transformaciones de estado predecibles
+- **StateFlow & SharedFlow**: Reactive streams para state subscriptions y event broadcasting
+- **Middleware Pattern**: Interceptors para logging, validation y side effects
+- **Observer Pattern**: Subscription system con automatic cleanup y lifecycle management
+- **Structured Concurrency**: CoroutineScope management con proper cancellation y error handling
+- **Thread-Safe Operations**: Mutex para atomic state updates en concurrent environment
+- **Circuit Breaker Pattern**: Fault tolerance para operaciones que pueden fallar
+- **Rate Limiting**: Control de frecuencia para operaciones costosas
+- **Timeout Handling**: withTimeout para operaciones con límites de tiempo
+- **Resource Management**: Proper cleanup de coroutines y subscriptions
+- **Functional Programming**: Higher-order functions, lambdas y function composition
+- **Type-Safe DSL**: Builder patterns para configuración fluida de middleware y observers
+
+**📂 Archivos Creados/Modificados:**
+- `state/AppState.kt` - Data classes inmutables para representar estado de aplicación
+- `state/AppAction.kt` - Sealed classes hierarchy para acciones type-safe
+- `state/StateManager.kt` - Store principal con StateFlow, reducers y middleware
+- `state/StateMiddleware.kt` - Sistema de middleware para interceptar acciones
+- `state/StateObserver.kt` - Observer pattern para reaccionar a cambios de estado
+- `state/StateExample.kt` - Ejemplo completo con async operations y error handling
+- `test/kotlin/state/StateManagerTest.kt` - Tests comprehensivos de concurrency y state management
+
+**🎓 Conceptos Kotlin Avanzados Demostrados:**
+- **Data Classes**: Para estado inmutable con copy functions automáticas
+- **Sealed Classes**: Para acciones type-safe con pattern matching exhaustivo
+- **StateFlow**: Para reactive state management con backpressure handling
+- **Mutex**: Para thread-safe state updates sin blocking threads
+- **Coroutine Scopes**: Para structured concurrency y resource management
+- **Higher-Order Functions**: Para middleware, observers y functional composition
+- **Extension Functions**: Para APIs fluidas y domain-specific operations
+- **Inline Functions**: Para performance optimization en hot paths
+- **Reified Generics**: Para type-safe operations con generic parameters
+- **Delegation**: Para property delegation y lazy initialization
+
+**🎓 Lecciones Aprendidas:**
+- Arquitectura Redux-like para predictable state management
+- Immutable data structures para thread safety y debugging
+- Reactive programming con Flow para responsive UIs
+- Middleware pattern para cross-cutting concerns
+- Observer pattern con automatic lifecycle management
+- Structured concurrency para robust async operations
+- Circuit breaker y rate limiting para fault tolerance
+- Pure functions para testable y predictable code
+- Type-safe DSLs para configuration y builder patterns
+- Resource management en reactive systems
+
+### 🚧 Phase 4.1: Persistencia (EN PROGRESO)
+
+En esta fase implementaremos un sistema completo de persistencia de datos que incluye base de datos, caching y almacenamiento persistente, integrando todo con el sistema de estado inmutable de Phase 3.1 y la API REST de Phase 3.2:
+
+**🔧 Conceptos a Implementar:**
+- **Database Layer**: Exposed ORM con DSL type-safe para operaciones de base de datos
+- **Connection Pooling**: HikariCP para manejo eficiente de conexiones de base de datos
+- **Entity Mapping**: Definición de entidades y schemas con Exposed
+- **Repository Pattern**: Abstracción de acceso a datos con interfaces y implementaciones
+- **Caching Layer**: Caffeine cache para mejorar performance de operaciones frecuentes
+- **Cache Strategies**: Eviction policies, TTL y cache warming strategies
+- **File Persistence**: Serialización JSON para backup y recovery de estado
+- **Transaction Management**: Manejo de transacciones para operaciones atómicas
+- **Migration Support**: Schema migrations y data versioning
+- **Integration Patterns**: Conexión con StateManager y API REST existente
+
+**📂 Archivos a Crear/Modificar:**
+- `persistence/db/DatabaseFactory.kt` - Factory para configuración de base de datos
+- `persistence/db/Entities.kt` - Definición de entidades con Exposed
+- `persistence/repository/` - Repository pattern con interfaces y implementaciones
+- `persistence/cache/CacheProvider.kt` - Abstracción de caching con Caffeine
+- `persistence/file/FileStorage.kt` - Persistencia basada en archivos
+- `persistence/PersistenceExample.kt` - Ejemplo completo de integración
+- `build.gradle.kts` - Nuevas dependencias para persistencia
+
