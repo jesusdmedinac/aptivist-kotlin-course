@@ -319,7 +319,7 @@ customTask("validateEnvironment") {
     action {
         val envConfig = getEnvironmentConfig()
         println("🔍 VALIDACIÓN DEL ENTORNO")
-        println("=" * 30)
+        println("=" + "=".repeat(29))
         envConfig.forEach { (key, value) ->
             println("$key: $value")
         }
@@ -370,10 +370,10 @@ tasks.register("printBanner") {
     description = "Imprime un banner usando operator overloading de Kotlin"
     
     doLast {
-        println("🎓 " + "=" * 50)
+        println("🎓 " + "=".repeat(50))
         println("   CURSO AVANZADO DE KOTLIN - Phase 1.2")
         println("   Gradle Build System Setup")
-        println("🎓 " + "=" * 50)
+        println("🎓 " + "=".repeat(50))
         println()
         println("✨ Conceptos Kotlin demostrados en este build:")
         println("   • Extension Functions & Properties")

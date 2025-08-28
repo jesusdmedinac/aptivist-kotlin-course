@@ -2,6 +2,7 @@
 package com.aptivist.kotlin.state
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -481,11 +482,11 @@ object Middlewares {
     /**
      * Middleware de logging que registra todas las acciones
      */
-    fun <State, Action> logging(
+    fun <State : Any, Action : Any> logging(
         name: String = "Store"
     ): Middleware<State, Action> = Middleware { state, action, next ->
         val startTime = System.currentTimeMillis()
-        println("🔄 [$name] Dispatching: ${action::class.simpleName}")
+        println("🔄 [$name] Dispatching: ${action::class.simpleName ?: "Unknown"}")
         
         next(action)
         
@@ -496,14 +497,14 @@ object Middlewares {
     /**
      * Middleware de validación que valida acciones antes de procesarlas
      */
-    fun <Action> validation(
+    fun <Action : Any> validation(
         validator: (Action) -> List<String>
     ): Middleware<AppState, Action> = Middleware { _, action, next ->
         val errors = validator(action)
         if (errors.isEmpty()) {
             next(action)
         } else {
-            println("❌ Action validation failed for ${action::class.simpleName}:")
+            println("❌ Action validation failed for ${action::class.simpleName ?: "Unknown"}:")
             errors.forEach { error ->
                 println("  - $error")
             }
@@ -513,7 +514,7 @@ object Middlewares {
     /**
      * Middleware de throttling que limita la frecuencia de acciones
      */
-    fun <State, Action> throttling(
+    fun <State : Any, Action : Any> throttling(
         windowMs: Long = 1000,
         maxActions: Int = 10
     ): Middleware<State, Action> {
@@ -529,7 +530,7 @@ object Middlewares {
                 actionTimes.add(now)
                 next(action)
             } else {
-                println("⚠️ Action throttled: ${action::class.simpleName}")
+                println("⚠️ Action throttled: ${action::class.simpleName ?: "Unknown"}")
             }
         }
     }
@@ -537,7 +538,7 @@ object Middlewares {
     /**
      * Middleware de performance que mide el tiempo de procesamiento
      */
-    fun <State, Action> performance(): Middleware<State, Action> {
+    fun <State : Any, Action : Any> performance(): Middleware<State, Action> {
         val actionTimes = mutableMapOf<String, MutableList<Long>>()
         
         return Middleware { _, action, next ->

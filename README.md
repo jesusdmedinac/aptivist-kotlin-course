@@ -3,7 +3,7 @@
 
 ## ✅ Progreso del Curso
 
-**Fase Actual:** Phase 2.2 - Plugin System ✅ COMPLETADA
+**Fase Actual:** Phase 3.1 - Manejo de Estado ✅ COMPLETADA
 
 Marca cada tema conforme lo vayas completando:
 
@@ -64,6 +64,13 @@ Marca cada tema conforme lo vayas completando:
   - [x] `Hot Streams` vs. `Cold Streams` ✅ Phase 1.3 (Channel vs Flow comparison)
   - [x] `Channels` para comunicación entre coroutines ✅ Phase 2.1 (WebSocket message passing)
   - [x] `Flow` vs. `SharedFlow` vs. `StateFlow` ✅ Phase 2.2 (plugin events con SharedFlow, state management con StateFlow)
+- **State Management**
+  - [x] Data classes para estado inmutable ✅ Phase 3.1 (AppState, ServerState, nested data classes)
+  - [x] Sealed classes para acciones type-safe ✅ Phase 3.1 (AppAction hierarchy con pattern matching)
+  - [x] Pure functions y reducers ✅ Phase 3.1 (functional state transformations)
+  - [x] Store con reactive subscriptions ✅ Phase 3.1 (StateFlow, observers, middleware)
+  - [x] Global CoroutineScope management ✅ Phase 3.1 (structured concurrency, resource management)
+  - [x] Async operations con timeout ✅ Phase 3.1 (withTimeout, circuit breaker, rate limiter)
 
 ## Temas
 
