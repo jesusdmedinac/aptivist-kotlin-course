@@ -89,7 +89,7 @@ sealed class AppAction {
         @Serializable
         data class SetError(
             val error: String,
-            val timestamp: Long = System.currentTimeMillis()
+            val timestamp: Long = Instant.now().toEpochMilli()
         ) : Server() {
             init {
                 require(error.isNotBlank()) { "Error message cannot be blank" }
@@ -389,8 +389,8 @@ object ActionCreators {
                 id = id,
                 type = type,
                 clientInfo = clientInfo,
-                establishedAt = System.currentTimeMillis(),
-                lastActivity = System.currentTimeMillis(),
+                establishedAt = Instant.now().toEpochMilli(),
+                lastActivity = Instant.now().toEpochMilli(),
                 status = ConnectionStatus.ACTIVE
             )
             return AppAction.Connection.Add(connection)
@@ -415,7 +415,7 @@ object ActionCreators {
             AppAction.Connection.AddEvent(event)
         
         fun clearOldHistory(olderThanHours: Int = 24): AppAction.Connection.ClearHistory {
-            val cutoffTime = System.currentTimeMillis() - (olderThanHours * 60 * 60 * 1000L)
+            val cutoffTime = Instant.now().toEpochMilli() - (olderThanHours * 60 * 60 * 1000L)
             return AppAction.Connection.ClearHistory(cutoffTime)
         }
     }
